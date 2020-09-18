@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+		template="/WEB-INF/templates/layouts/private.xhtml" id="bodyBlock">
+	<ui:define name="content">
+		<div id="content" class="private">
+			<h:form id="mainForm">
+		
+			<div class="pageTitle">
+		        <h1> #{msgs.locationForm} </h1>
+		    </div>
+		    <h:panelGrid columns="3">
+		        <h:outputLabel for="category" value="#{msgs.category}" />
+				<h:selectOneMenu id="category" value="#{locationController.location.category}" effect="fold" editable="true" converter="cachedConverter"
+			    	required="true" requiredMessage="#{msgs.category} - #{msgs.isReq}"  >
+		            <f:selectItem itemLabel="#{msgs.selectValue}"/>
+					<f:selectItems value="#{locationController.categoryList}" var="item" itemLabel="#{item.name}" itemValue="#{item}"/>
+			    </h:selectOneMenu>
+		        <h:message for="category" display="icon" style="color:red;" />
+				        
+	            <h:outputLabel value="#{msgs.name}" />
+				<h:inputText id="name" value="#{locationController.location.name}" required="true"
+					requiredMessage="#{msgs.name} - #{msgs.isReq}">
+				</h:inputText>
+				<h:message for="name" display="icon" style="color:red;" />
+				
+				<h:outputLabel value="#{msgs.locationInfo}" />
+				<p:textEditor id="locationInfo" widgetVar="editor1" value="#{locationController.location.info}" height="300" style="margin-bottom:10px" 
+				 required="true" requiredMessage="#{msgs.locationInfo} - #{msgs.isReq}"/>
+		        <h:message for="locationInfo" display="icon" style="color:red;" />
+		    </h:panelGrid>    
+
+	         <div style="display: none;">
+				<h:commandButton id="saveButton" value="#{msgs.save}" 
+					action="#{locationController.save()}" class="button" />	
+	         </div>	
+	      
+	       </h:form>
+	    
+             <h:panelGrid columns="2" styleClass="field-groups" columnClasses="field-group-label,field-group-content" rowClasses="field-group" style="min-width: 605px;">
+				<h:outputText value="#{msgs.pictures}" />
+				<ui:include src="/WEB-INF/templates/upload/upload.xhtml"/>
+	        </h:panelGrid>
+	        
+	        <h:form id="formBtn">
+				<h:panelGroup class="btnRegBlock">
+					<p:commandButton id="save" styleClass="btnRegister" onclick="document.getElementById('mainForm:saveButton').click();PF('block').show();;" value="#{msgs.save}" oncomplete="PF('block').hide()"/>
+				    <p:commandButton class="button" value="#{msgs.back}"
+						action="#{locationController.cancel()}" immediate="true" styleClass="btnReject"/>	
+				</h:panelGroup>
+			</h:form>	
+			
+			<p:blockUI block="formBtn" widgetVar="block" >
+		      #{msgs.loading}<br />
+		      <p:graphicImage library="img" name="ajaxloadingbar.gif"/>
+	        </p:blockUI>
+	    
+	</div>
+	</ui:define>
+</ui:composition>

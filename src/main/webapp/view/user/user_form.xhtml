@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	
+	    <h:form id="form">
+		<div class="pageTitle">
+			<h2>#{msgs.userForm}</h2>
+		</div>
+		<div class="pageBlock">
+			<div class="pageBody">
+
+					<h:panelGrid columns="3">
+
+						<h:outputLabel value="#{msgs.firstname}" />
+						<h:inputText id="firstname" class="uname"
+							value="#{userAction.person.firstname}" required="true"
+							requiredMessage="#{msgs.firstname} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="firstname" display="icon" style="color:red;" />
+
+						<h:outputLabel value="#{msgs.lastname}" />
+						<h:inputText id="lastname" value="#{userAction.person.lastname}"
+							required="true"
+							requiredMessage="#{msgs.lastname} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="lastname" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.patronymic}" />
+						<h:inputText id="patronymic" value="#{userAction.person.patronymic}"
+							required="true"
+							requiredMessage="#{msgs.patronymic} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="patronymic" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.email}" />
+						<h:inputText id="email" value="#{userAction.person.email}"
+							required="true"
+							requiredMessage="#{msgs.email} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="email" display="icon" style="color:red;" />
+
+						<h:outputLabel value="#{msgs.username}" />
+						<h:inputText id="username-new" value="#{userAction.user.username}"
+							required="true"
+							requiredMessage="#{msgs.username} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="username-new" display="icon" style="color:red;" />
+				
+					</h:panelGrid>
+
+					<h:panelGroup class="btnRegBlock">
+					    <h:commandButton class="button" value="#{msgs.save}"
+							action="#{userAction.save()}" styleClass="btnRegister"/>
+							<h:outputLabel style="width:100px;display:inline-block"/>				
+						<h:commandButton class="button" value="#{msgs.cancel}"
+							action="#{userAction.cancel()}" immediate="true" styleClass="btnReject"/>
+					</h:panelGroup>
+			
+			</div>
+		</div>
+
+	</h:form>
+	</ui:define>
+</ui:composition>

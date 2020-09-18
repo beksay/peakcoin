@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	
+	    <h:form id="form">	
+		<div class="row probile-container">
+			 <div class="row">
+				    <div class="col-4">
+				        <h:outputLabel value="#{msgs.foods}" />
+						<p:selectCheckboxMenu  value="#{cookController.foods}"  required="true" requiredMessage="#{msgs.foods} - #{msgs.isReq}" 
+								multiple="true" id="foods"  converter="cachedConverter">
+							<f:selectItems value="#{cookController.foodsList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>
+				    	</p:selectCheckboxMenu>
+						<h:message for="foods" display="icon" style="color:red;" />	
+				    </div>
+				    <div class="col-12">
+				        <p:commandButton class="button" value="#{msgs.save}"
+							action="#{cookController.save()}" styleClass="ui-button-info"/>
+							<h:outputLabel style="width:100px;display:inline-block"/>				
+						<p:commandButton class="button" value="#{msgs.cancel}"
+							action="#{cookController.back()}" immediate="true" styleClass="ui-button-warning"/>
+				    </div>
+			 </div>
+		</div>	
+		<p:messages id="messages" showDetail="true" closable="true">
+	        <p:autoUpdate />
+	    </p:messages>    
+	</h:form>
+	</ui:define>
+</ui:composition>

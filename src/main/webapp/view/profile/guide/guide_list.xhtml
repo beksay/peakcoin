@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/left_profile.xhtml" />		
+	</ui:define>
+	<ui:define name="content">
+		
+		<h:form>
+			<div class="row probile-container">
+				<div class="col-12 profile-info">
+					<div class="row">
+					     <div class="col-12">
+					        <h:outputLabel value="#{msgs.instructorActivities}" />
+							<p:selectCheckboxMenu  value="#{guideController.instructorActivities}"  required="true" requiredMessage="#{msgs.instructorActivities} - #{msgs.isReq}" 
+									multiple="true" id="instructorActivities"  converter="cachedConverter">
+								<f:selectItems value="#{guideController.instructorActivitiesList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>
+					    	</p:selectCheckboxMenu>
+							<h:message for="instructorActivities" display="icon" style="color:red;" />	
+					    </div>
+						<div class="col-12 InputForm">
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{guideController.change()}" value="#{msgs.editProfile}" rendered="#{guideController.editProfile ==false}"/>	
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{guideController.saveProfile()}" update="@form" rendered="#{guideController.editProfile}" value="#{msgs.save}" />					
+							<p:commandButton ajax="false" styleClass="ui-button-warning" action="#{guideController.cancel()}" immediate="true" rendered="#{guideController.editProfile}" value="#{msgs.cancel}" />
+						</div>
+					</div>
+				</div>	
+			</div>
+	    </h:form>
+	</ui:define>
+</ui:composition>

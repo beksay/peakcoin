@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/templates/layouts/baseLogin.xhtml">
+ 	<ui:define name="wrap-container">
+		<div class="loginBody">
+		    <div class="loginContainer">
+		    	<div class="loginHeader">
+		    		<p>Регистрация Участника</p>
+		    	</div>
+				<h:form id="login-form" prependId="false" >		    	
+			    	<div class="loginContent">
+			    		<div class="row">
+			    			<div class="col-12">
+								<h:outputText value="#{msgs.firstname}" styleClass="inputTitle"/>
+								<h:inputText id="firstname" value="#{registrationAction.person.firstname}" 
+								 required="true" requiredMessage="#{msgs.firstname} - #{msgs.isReq}">
+			                    </h:inputText>
+			                   <p:watermark for="firstname" value="#{msgs.firstname}"/>		    			
+			    			</div>
+			    			<div class="col-12">
+								<h:outputText value="#{msgs.lastname}" styleClass="inputTitle"/>
+								<h:inputText id="lastname" value="#{registrationAction.person.lastname}" 
+								 required="true" requiredMessage="#{msgs.lastname} - #{msgs.isReq}">
+			                    </h:inputText>
+			                   <p:watermark for="lastname" value="#{msgs.lastname}"/>		    			
+			    			</div>
+			    			<div class="col-12">
+								<h:outputText value="#{msgs.patronymic}" styleClass="inputTitle"/>
+								<h:inputText id="patronymic" value="#{registrationAction.person.patronymic}" />
+								<p:watermark for="patronymic" value="#{msgs.patronymic}"/>	
+			    			</div>
+			    			<div class="col-12">
+								<h:outputText value="#{msgs.email}" styleClass="inputTitle"/>
+								<h:inputText id="email" value="#{registrationAction.user.email}" 
+								 required="true" requiredMessage="#{msgs.email} - #{msgs.isReq}">
+			                    </h:inputText>
+			                   <p:watermark for="email" value="#{msgs.email}"/>		    			
+			    			</div>
+			    			<div class="col-12">
+			    			    <h:outputLabel for="isReq" value="#{msgs.registerReq}" />
+		    	                <p:selectBooleanCheckbox id="isReq" value="#{registrationAction.person.requirement}" required="true"/>
+			    			</div>
+			    			<div class="col-12 submit">
+								<p:commandButton value="#{msgs.register}" styleClass="ui-button-info" action="#{registrationAction.save()}" ajax="false"/>			    			
+			    			</div>
+			    			<div class="col-12 submit">
+								<h:commandLink action="#{registrationAction.returnLogin()}" value="#{msgs.cancel}" immediate="true" style="color:white"/>		    			
+			    			</div>
+			    		</div>
+			    	</div>
+					<p:messages id="messages" autoUpdate="true"/>
+					<p:growl id="growl" showDetail="true" sticky="true" /> 
+				</h:form>			    
+			</div>
+		</div>
+	</ui:define>	
+	
+</ui:composition>

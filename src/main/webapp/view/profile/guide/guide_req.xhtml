@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form>
+		<br /><br />
+		
+			<div class="row probile-container">
+				
+				<div class="col-12 profile-info">
+					<div class="row">
+						<div class="col-12">
+		    		        <h:outputLabel value=" rehrhtrhtr hrthrt htrh? " />
+						</div>
+						<br/><br/>
+						<div class="col-12"><i class="fa fa-fw fa-circle"></i> #{msgs.translator}</div>
+						<div class="col-12"><i class="fa fa-fw fa-circle"></i> #{msgs.instructor}</div>
+						<div class="col-12"><i class="fa fa-fw fa-circle"></i> #{msgs.dutyCamp}</div>
+						<div class="col-12"><i class="fa fa-fw fa-circle"></i> #{msgs.mountainGuide}</div>
+						<div class="col-12"><i class="fa fa-fw fa-circle"></i> #{msgs.assistant}</div>
+						<div class="col-12"><i class="fa fa-fw fa-circle"></i> #{msgs.cityGuide}</div>
+						<div class="col-12">
+						    <h:outputLabel value="You are already a guide in progress  " rendered="#{loginUtil.currentUser.person.hasGuide == false}" style="color:green"/>
+		    		        <h:outputLabel value="guide activated " rendered="#{loginUtil.currentUser.person.hasGuide == true}" style="color:green"/>
+						</div>
+						<div class="col-12 InputForm">
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{guideController.add()}" value="#{msgs.goToRegisterGuide}" rendered="#{loginUtil.currentUser.person.hasGuide == null}"/>	
+						</div>
+					</div>
+				</div>				
+			</div>
+	    </h:form>
+	</ui:define>
+</ui:composition>

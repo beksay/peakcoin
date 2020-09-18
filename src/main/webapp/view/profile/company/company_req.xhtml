@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form>
+		<br /><br />
+			<div class="row probile-container">
+				
+				<div class="col-12 profile-info">
+					<div class="row">
+						<div class="col-12">
+		    		        <h:outputLabel value=" Как создать свое событие, открыть регистрацию и провести его эффективно? " />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="1. Зарегистрироваться, как пользователь системы PeakCoin. " />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="2. Заполнить форму на этой странице, чтобы получить права «Организатора  событий» " />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="3. Выбрать дополнительные опции и услуги, для максимального результата  " />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="4. После этого наш менеджер свяжется с Вами и откроет доступ  " />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="5. Вы сможете приступить к настройке своего события в системе." />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="Не теряйте время и возможность  " />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="You are already a company in progress  " rendered="#{loginUtil.currentUser.person.hasCompany == false}" style="color:green"/>
+		    		        <h:outputLabel value="company activated " rendered="#{loginUtil.currentUser.person.hasCompany == true}" style="color:green"/>
+						</div>
+						<div class="col-12 InputForm">
+							<p:commandButton ajax="false" styleClass="ui-button-info" rendered="#{loginUtil.currentUser.person.hasCompany == null}"
+							     action="#{companyController.add()}" value="#{msgs.goToRegisterCompany}" />	
+						</div>
+					</div>
+				</div>				
+			</div>
+	    </h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		<div class="innerBlock">	
+	    <h:form id="form">
+		<div class="pageTitle">
+			<h2>#{msgs.dictionaryTypeForm}</h2>
+		</div>
+		<div class="pageBlock">
+			<div class="pageBody">
+
+					<h:panelGrid columns="3">
+
+						<h:outputLabel value="#{msgs.name}" />
+						<h:inputText id="name" value="#{dictionaryTypeController.dictionaryType.name}" required="true"
+							requiredMessage="#{msgs.name} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="name" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.shortName}" />
+						<h:inputText id="shortName" value="#{dictionaryTypeController.dictionaryType.shortName}" required="true"
+							requiredMessage="#{msgs.shortName} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="shortName" display="icon" style="color:red;" />
+					</h:panelGrid>
+
+					<h:panelGroup class="btnRegBlock">
+					    <h:commandButton class="button" value="#{msgs.save}"
+							action="#{dictionaryTypeController.save()}" styleClass="btnRegister"/>
+							<h:outputLabel style="width:70px;display:inline-block"/>				
+						<h:commandButton class="button" value="#{msgs.cancel}"
+							action="#{dictionaryTypeController.cancel()}" immediate="true" styleClass="btnReject"/>
+					</h:panelGroup>
+			
+			</div>
+		</div>
+	</h:form>
+	</div>
+	</ui:define>
+</ui:composition>

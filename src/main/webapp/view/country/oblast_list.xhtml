@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	 
+	 <h:form>	
+    		<div class="pageTitle">
+				<h2>#{oblastController.countryController.country.name}</h2>
+			</div>
+			
+    		<p:commandButton action="#{oblastController.add()}" value="#{msgs.add}" />
+			
+			<p:dataTable var="entity" value="#{oblastList.model}" 
+				paginator="true" rows="50" rowIndexVar="index" lazy="true" 
+				emptyMessage="#{msgs.noRecordsFound}" 
+				style="margin-top:0px"
+				sortOrder="DESCENDING"
+				styleClass="borderless"
+				selectionMode="single" selection="#{oblastController.oblast}"
+				rowsPerPageTemplate="50,70,100,150,200" paginatorPosition="bottom" pageLinks="10"
+	   			currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+	            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+	            <p:ajax event="rowSelect" listener="#{oblastController.onRowSelect}"/>
+	            <f:facet name="header">
+		           #{msgs.oblast}
+		        </f:facet>
+		        <p:column headerText="#{msgs.id}" width="200">
+		        	<h:outputText value="#{index + 1}"/>
+		        </p:column>
+		        <p:column headerText="#{msgs.name}">
+		          	<h:outputText value="#{entity.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.operation}">
+		            <p:commandButton action="#{oblastController.edit(entity)}" update="@form" icon="fa fa-edit" class="btn-journal" title="#{msgs.edit}" />
+		            <p:commandButton action="#{oblastController.delete(entity)}" update="@form" icon="fa fa-trash" class="btn-journal" title="#{msgs.delete}" />
+		        </p:column>	        
+	        </p:dataTable>
+	     
+	  </h:form>
+	</ui:define>
+</ui:composition>

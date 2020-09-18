@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/left_profile.xhtml" />		
+	</ui:define>
+	<ui:define name="content">
+		
+		<h:form>
+			<div class="row probile-container">
+				<div class="col-9 profile-info">
+					<div class="row">
+					    <div class="col-6">
+		    		        <h:outputLabel value="#{msgs.pin}" />
+		    		        <h:inputText value="#{companyController.company.pin}" disabled="true"/>
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel for="companyName" value="#{msgs.companyName}" />
+		    		        <h:inputText id="companyName" value="#{companyController.company.companyName}" disabled="#{companyController.editProfile==false}"
+		    		        required="true" requiredMessage="#{msgs.companyName} - #{msgs.isReq}"/>
+						</div>
+						<div class="col-6">
+							<h:outputLabel for="formType" value="#{msgs.formType}" />	 
+						    <p:selectOneMenu ajax="false" id="formType" value="#{companyController.company.formType}" converter="enumConverter" disabled="true">
+						        <f:selectItem itemLabel="" itemValue="" />
+				                <f:selectItems value="#{companyController.formTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+				            </p:selectOneMenu>
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.manager}" />
+		    		        <h:inputText value="#{companyController.company.manager}" disabled="#{companyController.editProfile==false}"/>
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.email}" />
+		    		        <h:inputText value="#{companyController.company.email}" disabled="#{companyController.editProfile==false}"
+		    		        required="true" requiredMessage="#{msgs.email} - #{msgs.isReq}"/>
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.phone}" />
+		    		        <h:inputText value="#{companyController.company.phone}" disabled="#{companyController.editProfile==false}"
+		    		        required="true" requiredMessage="#{msgs.phone} - #{msgs.isReq}"/>
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.instagram}" />
+		    		        <h:inputText value="#{companyController.company.instagram}" disabled="#{companyController.editProfile==false}"/>
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.facebook}" />
+		    		        <h:inputText value="#{companyController.company.facebook}" disabled="#{companyController.editProfile==false}"/>
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.website}" />
+		    		        <h:inputText value="#{companyController.company.website}" disabled="#{companyController.editProfile==false}"/>
+						</div>
+						<div class="col-6">
+							<h:outputLabel value="#{msgs.document}"/>
+							<h:outputLabel value="#{companyController.document.name}"/>
+						</div>
+						<div class="col-6">
+							<h:outputLabel value="#{msgs.passport}"/>
+							<h:outputLabel value="#{companyController.passport.name}"/>
+						</div>
+						<div class="col-6 InputForm">
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{companyController.change()}" value="#{msgs.editProfile}" rendered="#{companyController.editProfile ==false}"/>	
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{companyController.saveProfile()}" update="@form" rendered="#{companyController.editProfile}" value="#{msgs.save}" />					
+							<p:commandButton ajax="false" styleClass="ui-button-warning" action="#{companyController.cancel()}" immediate="true" rendered="#{companyController.editProfile}" value="#{msgs.cancel}" />
+						</div>
+					</div>
+				</div>	
+				 <div class="col-3 profile-avatar">
+	   		        <h:graphicImage value="#{utilController.getDownloadURL(utilController.generateKeyAliveCurrentSession(companyController.company.picture))}"
+	   		            rendered="#{companyController.company.picture.id ne null}" width="100" height="200"/>
+	   		        <h:graphicImage library="images" name="person.png" rendered="#{companyController.company.picture.id eq null}" width="100" height="200"/>	
+ 		            <p:fileUpload mode="advanced" fileUploadListener="#{companyController.handleFileUploadImage}"
+	                       update="messages3 logoId" sizeLimit="10000000" fileLimit="1" auto="true"
+	                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true" rendered="#{companyController.editProfile==true}"
+	                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+	         		<p:growl id="messages3" showDetail="true"/>  
+		     		<h:outputLabel value="#{companyController.image.name}" id="logoId" rendered="#{companyController.editProfile==true}"/>
+		            <h:commandLink action="#{companyController.removeImage()}" immediate="true" alt="#{msgs.delete}" rendered="#{companyController.image.name ne null and companyController.editProfile==true}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>			
+				</div>			
+			</div>
+	    </h:form>
+	</ui:define>
+</ui:composition>

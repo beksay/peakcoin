@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+	<div class="topHeader">
+		<div class="topLogo">
+		    <h:form>
+			   <h:commandLink action="#{profileController.mainForm()}" >
+				<h:graphicImage library="images" name="travel_quest.png" width="200" height="80"/> 
+			   </h:commandLink>
+		   </h:form>
+		</div>
+		<div class="topSpacer">
+		</div>
+		<div class="topSearch">
+			<h:form>
+				<p:inputText />
+				<p:button icon="fas fa-search" styleClass="searchButton" title="Search" />
+			</h:form>
+		</div>
+		<div class="topMenus">
+			<ul>
+				<li><a href="#"><i class="fas fa-envelope"></i></a></li>
+				<li><a href="#"><i class="fas fa-donate"></i></a></li>
+			</ul>
+		</div>
+		<div class="avatarBlock">
+			<h:form>
+				<h:commandLink styleClass="userAvatar" action="#{profileController.goProfile(loginUtil.currentUser)}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'user')}">
+					<span class="avatarPic">
+					  <h:graphicImage value="#{utilController.getDownloadURL(utilController.generateKeyAliveCurrentSession(loginUtil.currentUser.person.picture))}"
+		    		            rendered="#{loginUtil.currentUser.person.picture.id ne null}" />
+		    		  <h:graphicImage library="images" name="persons.png" rendered="#{loginUtil.currentUser.person.picture.id eq null}" width="100" height="150"/>          
+					</span>
+					<span class="avatarName">
+						<span class="userName">#{loginUtil.currentUser.person.fullname}</span>
+						<span class="userCoin"><i class="far fa-gem"></i> #{loginUtil.currentUser.person.peakcoin}</span>			
+					</span>
+		    	</h:commandLink>
+		    </h:form>
+		</div>	
+			
+	</div>
+</ui:composition>
+</html>

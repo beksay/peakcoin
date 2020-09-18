@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../WEB-INF/templates/private/left_profile.xhtml" />		
+	</ui:define>
+	<ui:define name="content">
+		
+		<h:form>
+		  <br /><br />
+			<div class="row probile-container">
+				
+				<div class="col-9 profile-info">
+					<div class="row">
+					    <div class="col-4">
+	    		        	<h:outputLabel value="#{msgs.status}" />
+	    		        	<h:inputText value="#{enums[profileController.user.status]}" disabled="true"/>
+						</div>
+						<div class="col-4">
+		    		        <h:outputLabel value="#{msgs.myAccount}" />
+		    		        <h:inputText value="#{profileController.person.account}" disabled="true"/>
+						</div>
+						<div class="col-4">
+		    		        <h:outputLabel value="#{msgs.email}" />
+		    		        <h:inputText value="#{profileController.user.email}" disabled="#{profileController.editProfile==false}"/>
+						</div>
+						<div class="col-4">
+	    		        	<h:outputLabel value="#{msgs.firstname}" />
+	    		        	<h:inputText value="#{profileController.person.firstname}" disabled="#{profileController.editProfile==false}"/>
+						</div>
+						<div class="col-4">
+	    		        	<h:outputLabel value="#{msgs.lastname}" />
+	    		        	<h:inputText value="#{profileController.person.lastname}" disabled="#{profileController.editProfile==false}"/>
+						</div>
+						<div class="col-4">
+	    		        	<h:outputLabel value="#{msgs.patronymic}" />
+	    		        	<h:inputText value="#{profileController.person.patronymic}" disabled="#{profileController.editProfile==false}"/>						
+						</div>
+						<div class="col-4"> 
+							<h:outputLabel value="#{msgs.birthDate}" for="birthDate"/>
+			                 <p:calendar id="birthDate" value="#{profileController.person.birthDate}" disabled="#{profileController.editProfile==false}"
+			                 yearRange="1950:2030" navigator="true" pattern="yyyy-MM-dd" />
+				    	</div>
+						<div class="col-4">
+		    		        <h:outputLabel value="#{msgs.yourself}" />
+		    		        <h:inputText value="#{profileController.person.yourself}" disabled="#{profileController.editProfile==false}"/>
+						</div>
+						<div class="col-4">
+		    		        <h:outputLabel value="#{msgs.country}" />	
+						    <p:selectOneMenu id="country" value="#{profileController.person.country}"  converter="cachedConverter" 
+						      disabled="#{profileController.editProfile==false}" >
+						        <f:selectItem itemLabel="#{msgs.selectValue}"/>
+				                <f:selectItems value="#{profileController.countryList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>    
+				                <p:ajax event="change" update="city"/>   
+				            </p:selectOneMenu>						
+						</div>
+						<div class="col-4">
+							<h:outputLabel value="#{msgs.city}" />
+							<p:selectOneMenu id="city" value="#{profileController.person.city}"  converter="cachedConverter" 
+						      disabled="#{profileController.editProfile==false}" >
+						        <f:selectItem itemLabel="#{msgs.selectValue}"/>
+				                <f:selectItems value="#{profileController.cityList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>     
+				            </p:selectOneMenu>		    	
+				    	</div>
+						<div class="col-4">
+	    		        	<h:outputLabel value="#{msgs.nickname}" />
+	    		        	<h:inputText value="#{profileController.person.nickname}" disabled="#{profileController.editProfile==false}"/>
+						</div>
+						<div class="col-4">
+	    		        	<h:outputLabel value="#{msgs.myPhone}" />
+	    		        	<h:inputText value="#{profileController.person.phone}" disabled="#{profileController.editProfile==false}"/>
+						</div>
+						<div class="col-4">
+	    		        	<h:outputLabel value="#{msgs.phoneExtra}" />
+	    		        	<h:inputText value="#{profileController.person.phoneExtra}" disabled="#{profileController.editProfile==false}"/>
+						</div>
+						<div class="col-6 InputForm">
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{profileController.change()}" value="#{msgs.editProfile}" rendered="#{profileController.editProfile ==false}"/>	
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{profileController.save()}" rendered="#{profileController.editProfile}" value="#{msgs.save}" />					
+							<p:commandButton ajax="false" styleClass="ui-button-warning" action="#{profileController.cancel()}" rendered="#{profileController.editProfile}" value="#{msgs.cancel}" />
+						</div>
+						<div class="col-6 InputForm">
+							<p:commandButton ajax="false" action="#{passwordChanger.change()}" value="#{msgs.changePassword}" />
+						</div>
+					</div>
+				</div>	
+				<div class="col-3 profile-avatar">
+	   		        <h:graphicImage value="#{utilController.getDownloadURL(utilController.generateKeyAliveCurrentSession(profileController.person.picture))}"
+	   		            rendered="#{profileController.person.picture.id ne null}" width="100" height="200"/>
+	   		        <h:graphicImage library="images" name="person.png" rendered="#{profileController.person.picture.id eq null}" width="100" height="200"/>	
+	   		        <p:fileUpload mode="advanced" fileUploadListener="#{profileController.handleFileUploadImage}"
+	                       update="messages3 logoId" sizeLimit="10000000" fileLimit="1" auto="true"
+	                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true" rendered="#{profileController.editProfile==true}"
+	                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+	         		<p:growl id="messages3" showDetail="true"/>  
+		     		<h:outputLabel value="#{profileController.image.name}" id="logoId" rendered="#{profileController.editProfile==true}"/>
+		            <h:commandLink action="#{profileController.removeImage()}" immediate="true" alt="#{msgs.delete}" rendered="#{profileController.image.name ne null and profileController.editProfile==true}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>						
+				</div>			
+			</div>
+	    </h:form>
+	</ui:define>
+</ui:composition>

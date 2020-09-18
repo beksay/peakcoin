@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		
+		<h:form>
+		    <p:panel id="filterPanel">
+				<h:outputLabel value="#{msgs.orderName}" />
+				<p:inputText id="name" value="#{touristOrderList.orderName}" title="Введите #{msgs.orderName}" />
+				<p:tooltip id="nameTooltip" for="name" showEvent="focus" hideEvent="blur" />
+						
+				<p:commandButton id="applyBtn" action="#{touristOrderList.filterData()}" value="#{msgs.apply}" />
+				<p:commandButton id="clearBtn" action="#{touristOrderList.clearData()}" value="#{msgs.clear}" />
+			</p:panel>
+			
+			<p:dataGrid var="entity" value="#{touristOrderList.model}" paginator="true" rows="12" rowIndexVar="index" lazy="true" emptyMessage="#{msgs.noRecordsFound}"  
+			columns="4" layout="grid" sortOrder="DESCENDING" styleClass="contentBlock" rowsPerPageTemplate="12,24,36,48,64" paginatorPosition="bottom" pageLinks="10"
+			currentPageReportTemplate="#{msgs.showPaymentNumbers}" selectionMode="single"
+			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+				<p:panel header="#{entity.peakcoin}" styleClass="contentBlockInner">
+		            <div class="InnerBlock">
+		                <h:commandLink action="#{touristOrderController.preview(entity)}" styleClass="innerDetailIMG">
+			                <h:graphicImage value="#{utilController.getDownloadURL(utilController.generateKeyAliveCurrentSession(entity.picture))}"
+		    		            rendered="#{entity.picture.id ne null}" width="100" height="150"/>
+		    		        <h:graphicImage library="images" name="persons.png" rendered="#{entity.picture.id eq null}" width="100" height="150"/>
+		                </h:commandLink>
+		                <div class="innerDetail">
+			                <h:commandLink action="#{touristOrderController.preview(entity)}" value="#{entity.name}"/>
+			                <p class="blockDate">
+			                	<i class="far fa-calendar-alt"></i>
+			                	<h:outputText value="#{entity.date}">
+									<f:convertDateTime pattern="dd-MM-yyyy" />
+								</h:outputText>
+			                </p>
+		                </div>
+		            </div>
+                </p:panel>
+	        </p:dataGrid>
+	   </h:form>
+	</ui:define>
+</ui:composition>

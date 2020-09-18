@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" lang="ru">
+
+<ui:insert name="metadata" />
+<h:head>
+	<meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+	<h:outputStylesheet library="css" name="bootstrap-grid.min.css" />
+	<h:outputStylesheet library="css" name="fontawesome.min.css" />	
+	<h:outputScript library = "js" name = "bootstrap.min.js" />
+	<h:outputScript library = "js" name = "fontawesome.min.js" />    
+	<title>
+		<ui:insert name="title">
+			<h:outputText value="PeakCoin" />
+		</ui:insert>
+	</title>
+	<ui:insert name="favicon">
+		 <link rel="shortcut icon" type="image/x-icon" href="/peakcoin/javax.faces.resource/peak.jpeg.xhtml?ln=icons"/>
+	</ui:insert>
+	<ui:insert name="additional-head" />
+</h:head> 
+<h:body id="entirePage"> 
+	<div class="">
+	</div>
+	<div class="mainPublic">
+		<div class="mainPublicHeader">
+			<ui:insert name="outer-wrap-header">					
+				<ui:insert name="wrap-header">
+					<ui:insert name="header" />									
+				</ui:insert>
+			</ui:insert>
+		</div>
+		<div class="mainPublicContent">
+			<ui:insert name="outer-wrap-content">
+				<ui:insert name="wrap-content">
+					<ui:insert name="content" />
+				</ui:insert>
+			</ui:insert>
+		</div>	
+	</div>
+	<ui:insert name="js"/>
+	<ui:insert name="add-js"/>
+</h:body>
+</html>

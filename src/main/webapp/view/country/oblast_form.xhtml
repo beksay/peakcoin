@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+			<h:form>	
+			
+			<div class="pageTitle">
+				<h2>#{oblastController.countryController.country.name}</h2>
+			</div>
+			
+			<div class="innerBlock">
+			    <div class="row">
+		    	  <div class="col-3">
+		    	        <h:outputLabel value="#{msgs.name}" />
+						<h:inputText id="name" value="#{oblastController.oblast.name}" required="true"
+							requiredMessage="#{msgs.name} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="name" display="icon" style="color:red;" />
+		    	  </div>
+		    	  <div class="col submit">
+					<p:commandButton ajax="false" value="#{msgs.save}" action="#{oblastController.save()}"/>		    	
+			      </div>
+			      <div class="col submit">
+						<p:commandButton ajax="false" styleClass="orange-btn" value="#{msgs.cancel}" action="#{oblastController.cancel()}" immediate="true"/>		    		
+			      </div>	
+			
+			   </div>  
+			</div>
+	    </h:form>
+	</ui:define>
+</ui:composition>

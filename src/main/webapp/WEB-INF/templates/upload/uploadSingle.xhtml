@@ -1,0 +1,32 @@
+<h:panelGroup xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:h="http://java.sun.com/jsf/html"
+              xmlns:ui="http://java.sun.com/jsf/facelets"
+              xmlns:p="http://primefaces.org/ui">
+
+    <h:outputText value="#{msgs.attachDocument}" styleClass="label label-group"/>
+    <h:panelGrid columns="2">
+        <h:form id="provisionFileUploadForm" style="height:35px;">
+            <p:fileUpload id="upLoad" mode="advanced" fileUploadListener="#{fileUploadController.handleFileUpload}"
+                          update="messages, :filesForm:files" sizeLimit="10000000" fileLimit="1" auto="true"
+                          fileLimitMessage="#{msgs.fileLimitMessage}"
+                          uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+            <p:growl id="messages" showDetail="true"/>
+        </h:form>
+    </h:panelGrid>
+
+    <h:outputText value="#{msgs.attachedDocument}" styleClass="label label-group"/>
+    <h:panelGroup>
+        <h:form id="filesForm"> 
+            <p:dataList value="#{fileUploadController.files}" var="file" id="files" type="ordered"
+                        emptyMessage="#{msgs.noRecordsFound}" >
+                <h:outputText id="name" value="#{file.name}"/>
+                
+                
+                <h:commandLink id="remove" value="#{forming.name}" action="#{fileUploadController.remove(file.uuid)}"
+                               immediate="true" styleClass="f-right btn-icon delete">
+                </h:commandLink>
+                <p:tooltip for="remove" value="#{msgs.delete}" showEffect="slide" hideEffect="slide"/>
+            </p:dataList>
+        </h:form>
+    </h:panelGroup>
+</h:panelGroup>

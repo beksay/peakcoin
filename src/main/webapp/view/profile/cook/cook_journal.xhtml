@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		
+		<h:form>
+		
+			<p:panel id="filterPanel">
+					
+				<p:commandButton id="applyBtn" action="#{cookList.filterData()}" value="#{msgs.apply}" />
+				<p:commandButton id="clearBtn" action="#{cookList.clearData()}" value="#{msgs.clear}" />
+			</p:panel>
+			
+			<p:dataTable var="entity" value="#{cookList.model}" 
+			paginator="true" rows="10" rowIndexVar="index" lazy="true" 
+			emptyMessage="#{msgs.noRecordsFound}" id="tableId"
+			style="margin-top:0px"
+			sortOrder="DESCENDING"
+			styleClass="borderless"
+			rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom" pageLinks="10"
+   			currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+   			selectionMode="single" 
+            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+            
+                <p:column headerText="#{msgs.number}" width="50">
+		        	<h:outputText value="#{index+1}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.status}">
+		        	<h:outputText value="#{enums[entity.status]}" />
+		        </p:column>
+    
+		        <p:column headerText="#{msgs.operation}">
+		            <p:commandButton action="#{cookController.activate(entity)}" rendered="#{entity.status ne 'ACTIVE'}" update="tableId" icon="fas fa-check" class="btn-journal" styleClass="red-btn" title="#{msgs.activate}" >
+		        	    <p:confirm header="#{msgs.headerConfirm}" message="#{msgs.contentConfirm}" icon="pi pi-exclamation-triangle" />
+		        	</p:commandButton>
+		        </p:column>    
+		        
+	        </p:dataTable>
+	        
+	        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="#{msgs.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+		    </p:confirmDialog>
+	</h:form>
+	</ui:define>
+</ui:composition>

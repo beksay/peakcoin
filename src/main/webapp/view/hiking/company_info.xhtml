@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+
+	<ui:define name="content">
+	   <h:form>
+	       <div class="row">
+				<div class="col-4 detailPic">
+	   		        <h:graphicImage value="#{utilController.getDownloadURL(utilController.generateKeyAliveCurrentSession(hikingController.company.picture))}"
+    		            rendered="#{hikingController.company.picture.id ne null}" width="200" height="200"/>
+    		        <h:graphicImage library="images" name="persons.png" 
+    		        rendered="#{hikingController.company.picture.id eq null}" width="200" height="200"/> 
+				</div>
+				<div class="col-8">
+					<div class="row touristDetail">
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.companyName}" />
+		    		        <h:outputText styleClass="touristSpan" value="#{hikingController.company.companyName}"/>
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.phone}" />
+		    		        <h:outputText styleClass="touristSpan" value="#{hikingController.company.phone}" />
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.email}" />
+		    		        <h:outputText styleClass="touristSpan" value="#{hikingController.company.email}" />
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.instagram}" />
+		    		        <h:outputText styleClass="touristSpan" value="#{hikingController.company.instagram}" />
+						</div>
+						<div class="col-6">
+    		        		<h:outputLabel value="#{msgs.facebook}" />
+    		        		<h:outputText styleClass="touristSpan" value="#{hikingController.company.facebook}" />
+						</div>
+						<div class="col-6">
+    		        		<h:outputLabel value="#{msgs.website}" />
+    		        		<h:outputText styleClass="touristSpan" value="#{hikingController.company.website}" />
+						</div>
+					</div>
+				</div>
+			</div>
+	   </h:form>
+	</ui:define>
+</ui:composition>

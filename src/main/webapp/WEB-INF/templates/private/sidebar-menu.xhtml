@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<ui:composition>
+	    <h:form>
+			<div class="main-side-menu">
+				<div class="main-side-menu">
+					<p:menubar styleClass="mymenu">
+					              
+					                             
+					</p:menubar>
+					<p:growl id="messages" />
+					
+					<p:panelMenu >	
+					    <p:submenu label="#{msgs.applications}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'admin')}">
+						    <p:menuitem value="#{msgs.companyList}" styleClass="#{view.viewId.contains('/company/') ? 'active' : ''}" outcome="/view/profile/company/company_journal.xhtml" /> 
+						    <p:menuitem value="#{msgs.carPark}" styleClass="#{view.viewId.contains('/carpark/') ? 'active' : ''}" outcome="/view/profile/carpark/carpark_journal.xhtml" /> 
+						    <p:menuitem value="#{msgs.quide}" styleClass="#{view.viewId.contains('/guide/') ? 'active' : ''}" outcome="/view/profile/guide/guide_journal.xhtml" /> 
+						    <p:menuitem value="#{msgs.cook}" styleClass="#{view.viewId.contains('/cook/') ? 'active' : ''}" outcome="/view/profile/cook/cook_journal.xhtml" />  
+					    </p:submenu>
+				        <p:submenu label="#{msgs.orders}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'user')}">
+				            <p:menuitem value="Походы" styleClass="#{view.viewId.contains('/hiking/') ? 'active' : ''}" outcome="/view/hiking/hiking_list.xhtml"/> 
+				            <p:menuitem value="Туры" styleClass="#{view.viewId.contains('/tours/') ? 'active' : ''}" outcome="/view/tours/tourist_order.xhtml"/>   
+					        <p:menuitem value="Спортивные ивенты" styleClass="#{view.viewId.contains('/events/') ? 'active' : ''}" outcome="/view/events/tourist_order.xhtml"/>    
+				        </p:submenu>
+				        <p:submenu label="#{msgs.myJourneys}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'user')}">
+				            <p:menuitem value="#{msgs.myJourneys}" styleClass="#{view.viewId.contains('/journey/') ? 'active' : ''}" outcome="/view/journey/my_journey.xhtml" />
+				            <p:menuitem value="#{msgs.myCash}" />
+				        </p:submenu>
+				        <p:submenu label="#{msgs.organizator}" rendered="#{loginUtil.currentUser.person.hasCompany==true}">
+				            <p:menuitem value="#{msgs.myOrders}" styleClass="#{view.viewId.contains('/orders/') ? 'active' : ''}" outcome="/view/orders/orders_list.xhtml" />
+				            <p:menuitem value="#{msgs.myCash}" />
+				            <p:menuitem value="#{msgs.myTransports}" styleClass="#{view.viewId.contains('/transport/') ? 'active' : ''}" outcome="/view/transport/transport_list.xhtml" />
+				            <p:menuitem value="#{msgs.myDrivers}" styleClass="#{view.viewId.contains('/driver/') ? 'active' : ''}" outcome="/view/driver/driver_list.xhtml" />
+				        </p:submenu>
+				        <p:submenu label="#{msgs.carPark}" rendered="#{loginUtil.currentUser.person.hasCompany==false}">
+				            <p:menuitem value="#{msgs.myCars}" />
+				        </p:submenu>
+				        <p:submenu label="#{msgs.help}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'user')}">
+				            <p:menuitem value="Как зарегистрировать Организатора?" outcome="/view/profile/company/company_req.xhtml"/>
+				            <p:menuitem value="Как стать гидом?" outcome="/view/profile/guide/guide_req.xhtml" />
+				            <p:menuitem value="Как стать владельцем автопарка?" outcome="/view/profile/carpark/carpark_req.xhtml"/>
+				            <p:menuitem value="FAQ" />
+				            <p:menuitem value="Контакты" />
+				        </p:submenu>
+				        <p:submenu label="#{msgs.dictionary}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'admin')}">
+				            <p:menuitem value="#{msgs.dictionary}" styleClass="#{view.viewId.contains('/dictionary/') ? 'active' : ''}" outcome="/view/dictionary/dict_type_list.xhtml" />
+				            <p:menuitem value="#{msgs.country}" styleClass="#{view.viewId.contains('/country/') ? 'active' : ''}" outcome="/view/country/country_list.xhtml" />
+				        </p:submenu>
+				    </p:panelMenu>
+				</div>
+							
+			 </div>
+		</h:form>
+</ui:composition>
+
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+
+	<ui:define name="content">
+		<h:form id="form">
+			<div class="row">
+				<div class="col-3 detailPic">
+	   		        <h:graphicImage value="#{utilController.getDownloadURL(utilController.generateKeyAliveCurrentSession(touristOrderController.orders.picture))}"
+	   		            rendered="#{touristOrderController.orders.picture.id ne null}" width="200" height="200"/>
+	   		        <h:graphicImage library="images" name="persons.png" rendered="#{touristOrderController.orders.picture.id eq null}" width="200" height="200"/>
+				</div>
+				<div class="col-9">
+					<div class="row touristDetail">
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.peakcoin}" />
+		    		        <h:outputText styleClass="touristSpan" value="#{touristOrderController.orders.peakcoin}"/>
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.date}" />
+		    		        <h:outputText styleClass="touristSpan" value="#{touristOrderController.orders.date}" >
+		    		            <f:convertDateTime pattern="yyyy-MM-dd" />
+		    		        </h:outputText>
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.orderName}" />
+		    		        <h:outputText styleClass="touristSpan" value="#{touristOrderController.orders.name}" />
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.orderDescription}" />
+		    		        <h:outputText styleClass="touristSpan" value="#{touristOrderController.orders.description}" />
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.orderQuantity}" />
+		    		        <h:outputText styleClass="touristSpan" value="#{touristOrderController.orders.quantity}" />
+						</div>
+						<div class="col-6">
+    		        		<h:outputLabel value="#{msgs.placeIn}" />
+    		        		<h:outputText styleClass="touristSpan" value="#{touristOrderController.getParticipantsNumber(touristOrderController.orders)}" />
+						</div>
+						<div class="col-6">
+    		        		<h:outputLabel value="#{msgs.placeLeft}" />
+    		        		<h:outputText styleClass="touristSpan" value="#{touristOrderController.orders.quantity-touristOrderController.getParticipantsNumber(touristOrderController.orders)}" />
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.orderProgram}" />
+    		        		<h:outputText styleClass="touristSpan" value="#{touristOrderController.orders.program}" escape="false" />						
+						</div>
+						<div class="col-6">
+    		        		<h:outputLabel value="#{msgs.companyName}" />
+    		        		<h:commandLink styleClass="touristSpan" action="#{touristOrderController.linkCompany(touristOrderController.orders)}" value="#{touristOrderController.orders.company.companyName}" />
+						</div>
+						<div class="col-6">
+		    		        <h:outputLabel value="#{msgs.phone}" />
+    				        <h:outputText styleClass="touristSpan" value="#{touristOrderController.orders.company.phone}" />						
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-6">
+				    <br />
+  				    <p:dataTable value="#{touristOrderController.getParticipantsList(touristOrderController.orders)}" 
+	    		    styleClass="borderless"  var="item" type="ordered">
+				        <f:facet name="header">
+				           #{msgs.locations}
+				        </f:facet>
+				        <p:column>
+				           <h:outputText value="#{item.person.fullname}" />
+				        </p:column>
+				   </p:dataTable>						
+				</div>
+				<h:panelGroup layout="block"  class="col-6" rendered="#{touristOrderController.isJoinedJourney(touristOrderController.orders)}">
+	    		   <h:outputLabel styleClass="titleHead" value="#{msgs.thankAttend}" />  
+	    		   <p:dataTable value="#{touristOrderController.getParticipantsList(touristOrderController.orders)}" 
+	    		    styleClass="borderless"  var="item" type="ordered">
+				        <f:facet name="header">
+				           #{msgs.participants}
+				        </f:facet>
+				        <p:column>
+				           <h:outputText value="#{item.person.fullname}" />
+				        </p:column>
+				   </p:dataTable>
+				</h:panelGroup>
+			</div>
+			<div class="bottomButton">
+				<p:commandButton action="#{touristOrderController.joinJourney(touristOrderController.orders)}" rendered="#{!touristOrderController.isJoinedJourney(touristOrderController.orders)}"  styleClass="btnRegister" update="@form" icon="fa fa-check" value="#{msgs.joinJourney}"  >
+		        	   <p:confirm header="Требуется подтверждение ..." message="Вы точно хотите принять участие?" icon="pi pi-exclamation-triangle" />
+		        </p:commandButton>
+			</div>
+	  	          
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="#{msgs.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+		        <p:commandButton value="#{msgs.no}" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+		     </p:confirmDialog>
+		     
+		   <p:messages/>
+		   <p:growl id="growl" showDetail="true" sticky="true" /> 
+	   </h:form>
+	</ui:define>
+</ui:composition>

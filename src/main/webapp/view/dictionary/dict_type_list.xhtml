@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		<h:form>	
+			<p:dataTable var="entity" value="#{dictionaryTypeList.model}" paginator="true" rows="30" rowIndexVar="index" lazy="true" 
+				emptyMessage="#{msgs.noRecordsFound}" sortOrder="DESCENDING" 
+				selectionMode="single" selection="#{dictionaryTypeController.dictionaryType}"
+				rowsPerPageTemplate="30,60,90,120,150" paginatorPosition="bottom" pageLinks="10" currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+	            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+		 		<p:ajax event="rowSelect" listener="#{dictionaryTypeController.onRowSelect}"/>
+		        <p:column headerText="#{msgs.id}" width="200">
+		        	<h:outputText value="#{entity.id}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.dictType}">
+		          	<h:outputText value="#{entity.name}" />
+		        </p:column>
+	        </p:dataTable>       
+		</h:form>
+	</ui:define>
+</ui:composition>

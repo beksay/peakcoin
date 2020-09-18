@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	
+	    <h:form id="form">
+		<div class="pageTitle">
+			<h2>#{msgs.transportPreview}</h2>
+		</div>
+		<div class="pageBlock">
+			<div class="pageBody">
+
+					<h:panelGrid columns="3">
+					    <h:outputLabel for="transportType" value="#{msgs.transportType}" />
+						<h:selectOneMenu id="transportType" value="#{transportController.transport.type}" effect="fold" editable="true" converter="cachedConverter"
+					    	required="true" requiredMessage="#{msgs.transportType} - #{msgs.isReq}" disabled="true" >
+				            <f:selectItem itemLabel="#{msgs.selectValue}"/>
+							<f:selectItems value="#{transportController.transportTypeList}" var="item" itemLabel="#{item.name}" itemValue="#{item}"/>
+					    </h:selectOneMenu>
+				        <h:message for="transportType" display="icon" style="color:red;" />
+					
+						<h:outputLabel value="#{msgs.transportNumber}" />
+						<h:inputText id="transportNumber" value="#{transportController.transport.number}" required="true" disabled="true" 
+							requiredMessage="#{msgs.transportNumber} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="transportNumber" display="icon" style="color:red;" />
+						
+						<h:outputLabel for="mark" value="#{msgs.mark}" />
+						<h:selectOneMenu id="mark" value="#{transportController.transport.mark}" effect="fold" editable="true" converter="cachedConverter" disabled="true" 
+					    	required="true" requiredMessage="#{msgs.mark} - #{msgs.isReq}"  >
+				            <f:selectItem itemLabel="#{msgs.selectValue}"/>
+							<f:selectItems value="#{transportController.markList}" var="item" itemLabel="#{item.name}" itemValue="#{item}"/>
+					    </h:selectOneMenu>
+				        <h:message for="mark" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.model}" />
+						<h:inputText id="model" value="#{transportController.transport.model}" required="true" disabled="true" 
+							requiredMessage="#{msgs.model} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="model" display="icon" style="color:red;" />
+
+						<h:outputLabel value="#{msgs.year}" />
+						<h:inputText id="year" value="#{transportController.transport.year}" required="true" disabled="true" 
+							requiredMessage="#{msgs.year} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="year" display="icon" style="color:red;" />
+						
+						<h:outputLabel for="color" value="#{msgs.color}" />
+						<h:selectOneMenu id="color" value="#{transportController.transport.color}" effect="fold" editable="true" converter="cachedConverter" disabled="true" 
+					    	required="true" requiredMessage="#{msgs.color} - #{msgs.isReq}"  >
+				            <f:selectItem itemLabel="#{msgs.selectValue}"/>
+							<f:selectItems value="#{transportController.colorList}" var="item" itemLabel="#{item.name}" itemValue="#{item}"/>
+					    </h:selectOneMenu>
+				        <h:message for="color" display="icon" style="color:red;" />
+				        
+				        <h:outputLabel value="#{msgs.seatNumber}" />
+						<h:inputText id="seatNumber" value="#{transportController.transport.seatNumber}" required="true" disabled="true" 
+							requiredMessage="#{msgs.seatNumber} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="seatNumber" display="icon" style="color:red;" />
+						
+						<h:outputLabel for="gear" value="#{msgs.gear}" />
+						<h:selectOneMenu id="gear" value="#{transportController.transport.gear}" effect="fold" editable="true" converter="cachedConverter"
+					    	required="true" requiredMessage="#{msgs.gear} - #{msgs.isReq}" disabled="true"  >
+				            <f:selectItem itemLabel="#{msgs.selectValue}"/>
+							<f:selectItem itemValue="#{true}" itemLabel="#{msgs.yes}"/>
+    						<f:selectItem itemValue="#{false}" itemLabel="#{msgs.no}"/>
+					    </h:selectOneMenu>
+				        <h:message for="gear" display="icon" style="color:red;" />
+				        
+				        <h:outputText  value="#{msgs.wifi}" />
+				        <p:selectBooleanCheckbox value="#{transportController.transport.wifi}" disabled="true"  />
+				        <h:outputLabel />
+				        
+				        <h:outputText  value="#{msgs.karaoke}" />
+				        <p:selectBooleanCheckbox value="#{transportController.transport.karaoke}" disabled="true" />
+				        <h:outputLabel />
+				        
+				        <h:outputText  value="#{msgs.tv}" />
+				        <p:selectBooleanCheckbox value="#{transportController.transport.tv}" disabled="true" />
+				        <h:outputLabel />
+				        
+					</h:panelGrid>
+
+					<h:panelGroup class="btnRegBlock">
+						<p:commandButton class="button" value="#{msgs.back}"
+							action="#{transportController.cancel()}" immediate="true" styleClass="ui-button-warning"/>
+					</h:panelGroup>
+			
+			</div>
+		</div>
+
+	</h:form>
+	</ui:define>
+</ui:composition>

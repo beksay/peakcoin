@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form>
+		<br /><br />
+			<div class="row probile-container">
+				
+				<div class="col-12 profile-info">
+					<div class="row">
+						<div class="col-12">
+		    		        <h:outputLabel value=" yjktyjytjyt jtyjtyjtyjytjty jtyjtyj? " />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="1. tyjtyjytjytj jtyjytjtyjty jtyjytjytjtyj jytjytjtyj jytjytj. " />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="2. ytjtyjtyjty jtyjtyjtyj jtyjytjtyj jtyjtyj jytjytj " />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="3. tyjtyjyt jtyjtyjtyjty ytjtyj   " />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="4. ytjytjtyjty ytjtyjytj jtyjtyjtyj jytjtyj  " />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="5. tyjytjtyj ytjytjtyj ytjytjtyjty tyjtyjtyj" />
+						</div>
+						<div class="col-12">
+		    		        <h:outputLabel value="Не теряйте время и возможность  " />
+						</div>
+						<div class="col-12 InputForm">
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{cookController.add()}" value="#{msgs.goToRegisterCook}" />	
+						</div>
+					</div>
+				</div>				
+			</div>
+	    </h:form>
+	</ui:define>
+</ui:composition>

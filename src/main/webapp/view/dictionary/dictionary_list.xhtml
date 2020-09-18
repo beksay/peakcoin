@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	 
+	 <h:form>	
+	    <div class="pageTitle">
+			<h2>#{dictionaryController.dictionaryTypeController.dictionaryType.name}</h2>
+		</div>
+		    
+            <p:commandButton action="#{dictionaryController.add()}" value="#{msgs.add}"></p:commandButton>
+			
+			<p:dataTable var="entity" value="#{dictionaryList.model}" 
+				paginator="true" rows="50" rowIndexVar="index" lazy="true" 
+				emptyMessage="#{msgs.noRecordsFound}" 
+				style="margin-top:0px"
+				sortOrder="DESCENDING"
+				styleClass="borderless"
+				selectionMode="single" 
+				rowsPerPageTemplate="50,70,100,150,200" paginatorPosition="bottom" pageLinks="10"
+	   			currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+	            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+		        <p:column headerText="#{msgs.id}" width="200">
+		        	<h:outputText value="#{index + 1}"/>
+		        </p:column>
+		        <p:column headerText="#{msgs.name}">
+		          	<h:outputText value="#{entity.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.nameEn}">
+		          	<h:outputText value="#{entity.nameEn}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.active}" width="200">
+		          	<h:outputText value="#{msgs.yes}" rendered="#{entity.active==true}"/>
+		          	<h:outputText value="#{msgs.no}" rendered="#{entity.active==false}"/>
+		        </p:column>
+		        <p:column headerText="#{msgs.operation}">
+		            <p:commandButton action="#{dictionaryController.edit(entity)}" update="@form" icon="fa fa-edit" class="btn-journal" title="#{msgs.edit}" />
+		        </p:column>	        
+	        </p:dataTable>
+	     
+	  </h:form>
+	</ui:define>
+</ui:composition>

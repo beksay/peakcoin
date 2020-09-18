@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		
+		<h:form>
+		    <p:panel id="filterPanel">
+				<h:outputLabel value="#{msgs.orderName}" />
+				<p:inputText id="name" value="#{orderList.orderName}"
+					title="Введите #{msgs.orderName}" />
+				<p:tooltip id="nameTooltip" for="name" showEvent="focus"
+					hideEvent="blur" />
+						
+				<p:commandButton id="applyBtn" action="#{orderList.filterData()}" value="#{msgs.apply}" />
+				<p:commandButton id="clearBtn" action="#{orderList.clearData()}" value="#{msgs.clear}" />
+				<ui:repeat var="addItem" value="#{orderController.addCompanyOrder(loginUtil.currentUser.person)}">
+				    <p:commandButton value="#{msgs.add}" style="float:right" action="#{orderController.add(addItem)}" styleClass="ui-button-info" />
+				</ui:repeat>
+			</p:panel>
+			
+			<p:dataTable var="entity" value="#{orderList.model}" 
+			paginator="true" rows="10" rowIndexVar="index" lazy="true" 
+			emptyMessage="#{msgs.noRecordsFound}" 
+			style="margin-top:0px"
+			sortOrder="DESCENDING"
+			styleClass="borderless"
+			selectionMode="single" selection="#{orderController.orders}"
+			rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom" pageLinks="10"
+   			currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+		        <p:ajax event="rowSelect" listener="#{orderController.onRowSelect}"/>
+		        <p:column headerText="#{msgs.number}" width="50">
+		        	<h:outputText value="#{index+1}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.orderType}">
+		        	<h:outputText value="#{entity.type.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.orderName}">
+		          	<h:outputText value="#{entity.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.orderDescription}">
+		        	<h:outputText value="#{entity.description}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.date}">
+		        	<h:outputText value="#{entity.date}" >
+		        	    <f:convertDateTime pattern="yyyy-MM-dd" />
+		        	</h:outputText>
+		        </p:column>
+		        <p:column headerText="#{msgs.status}">
+		        	<h:outputText value="#{enums[entity.status]}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.peakcoin}">
+		        	<h:outputText value="#{entity.peakcoin}" style="font-weight: bold;"/>
+		        </p:column>
+                <p:column headerText="#{msgs.dateCreated}">
+		        	<h:outputText value="#{entity.dateCreated}" >
+		        	    <f:convertDateTime pattern="yyyy-MM-dd" />
+		        	</h:outputText>
+		        </p:column>
+		        <p:column headerText="#{msgs.operation}">
+		            <p:commandButton action="#{orderController.edit(entity)}" update="@form" icon="fa fa-edit" class="btn-journal" title="Редактировать" />
+		        	<p:commandButton action="#{orderControlle.delete(entity)}" update="@form" icon="fa fa-trash" class="btn-journal" title="Удалить" />
+		        </p:column> 
+	        </p:dataTable>	
+	   </h:form>
+	</ui:define>
+</ui:composition>

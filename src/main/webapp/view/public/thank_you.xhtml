@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/templates/layouts/baseLogin.xhtml">
+ 	<ui:define name="wrap-container">
+		<div class="loginBody">
+		    <div class="loginThank">
+		    	<h:form>
+			    	 <p style="color:orange">#{msgs.thanks}</p>
+			    	 <br />
+			         <h:outputText value="#{msgs.thankYou}" /> 
+			         <br /><br /><br />
+				     <h:commandLink action="#{registrationAction.returnLogin()}" value="Войти в систему" style="color:white"/>			    			
+			    </h:form>
+			</div>
+		</div>
+	</ui:define>	
+	
+</ui:composition>

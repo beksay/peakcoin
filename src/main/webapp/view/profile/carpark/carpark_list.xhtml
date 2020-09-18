@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/left_profile.xhtml" />		
+	</ui:define>
+	<ui:define name="content">
+		
+		<h:form>
+			<div class="row probile-container">
+				<div class="col-12 profile-info">
+					<div class="row">
+					    <div class="col-6">
+		    		        <h:outputLabel value="#{msgs.pin}" />
+		    		        <h:inputText value="#{carparkController.carpark.pin}" disabled="true"/>
+						</div>
+						<div class="col-6">
+							<h:outputLabel for="formType" value="#{msgs.formType}" />	 
+						    <p:selectOneMenu ajax="false" id="formType" value="#{carparkController.carpark.formType}" converter="enumConverter" disabled="true">
+						        <f:selectItem itemLabel="" itemValue="" />
+				                <f:selectItems value="#{carparkController.formTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+				            </p:selectOneMenu>
+						</div>
+						<div class="col-6">
+							<h:outputLabel value="#{msgs.country}" />	
+						    <p:selectOneMenu id="country" value="#{carparkController.carpark.country}"  converter="cachedConverter" disabled="#{carparkController.editProfile==false}"
+						    required="true" requiredMessage="#{msgs.country} - #{msgs.isReq}">
+						        <f:selectItem itemLabel="#{msgs.selectValue}"/>
+				                <f:selectItems value="#{carparkController.countryList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>     
+				            </p:selectOneMenu>
+						</div>
+						<div class="col-6">
+							<h:outputLabel value="#{msgs.document}"/>
+							<h:outputLabel value="#{carparkController.document.name}"/>
+						</div>
+						<div class="col-6 InputForm">
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{carparkController.change()}" value="#{msgs.editProfile}" rendered="#{carparkController.editProfile ==false}"/>	
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{carparkController.saveProfile()}" update="@form" rendered="#{carparkController.editProfile}" value="#{msgs.save}" />					
+							<p:commandButton ajax="false" styleClass="ui-button-warning" action="#{carparkController.cancel()}" immediate="true" rendered="#{carparkController.editProfile}" value="#{msgs.cancel}" />
+						</div>
+					</div>
+				</div>			
+			</div>
+	    </h:form>
+	</ui:define>
+</ui:composition>

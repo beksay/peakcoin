@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	
+	    <h:form id="form">
+	    <p:messages id="messages" showDetail="true" closable="true">
+	        <p:autoUpdate />
+	    </p:messages> 	     
+	    <p:wizard nextLabel="#{msgs.next}" backLabel="#{msgs.back}" >
+	       <p:tab id="translator" title="#{msgs.translator}">
+	            <p:panel header="#{msgs.addTranslator}">
+	                <p:messages />
+	                <h:panelGrid columns="2" columnClasses="label, value">
+						<h:outputText  value="#{msgs.translator} : " />
+				        <p:selectBooleanCheckbox value="#{guideController.guide.translator}">
+				            <p:ajax update="translatorDocId"/>
+				        </p:selectBooleanCheckbox>		    	
+			    	</h:panelGrid>
+			    	<br />
+			    	<h:panelGroup layout="block" class="col-12" id="translatorDocId">
+						<h:outputText  value="#{msgs.translatorDoc} : " rendered="#{guideController.guide.translator == true}"/>  
+						<h:panelGrid columns="1" id="translatorDoc" rendered="#{guideController.guide.translator == true}">
+								<p:fileUpload mode="advanced" fileUploadListener="#{guideController.uploadTranslatorDoc}"
+				                       update="messages1 translatorDoc" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+				         		<p:growl id="messages1" showDetail="true"/>  
+					     		<h:outputLabel value="#{guideController.translatorDoc.name}"/>
+					            <h:commandLink action="#{guideController.removeTranslatorDoc()}" immediate="true" alt="#{msgs.delete}" rendered="#{guideController.translatorDoc.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+				     	</h:panelGrid>
+			    	</h:panelGroup>
+	            </p:panel>
+	        </p:tab>
+	        <p:tab id="instructor" title="#{msgs.instructor}">
+	            <p:panel header="#{msgs.addInstructor}">
+	                <p:messages />
+	                <h:panelGrid columns="2" columnClasses="label, value">
+						<h:outputText  value="#{msgs.instructor} : " />
+				        <p:selectBooleanCheckbox value="#{guideController.guide.instructor}">
+				            <p:ajax update="instructorDocId activityId" />
+				        </p:selectBooleanCheckbox>		    	
+			    	 </h:panelGrid>
+			    	<br/> 
+			    	<h:panelGroup layout="block" class="col-12" id="instructorDocId">
+						<h:outputText  value="#{msgs.instructorDoc} : " rendered="#{guideController.guide.instructor == true}"/>
+						<h:panelGrid columns="1" id="instructorDoc" rendered="#{guideController.guide.instructor == true}">
+								<p:fileUpload mode="advanced" fileUploadListener="#{guideController.uploadInstructorDoc}"
+				                       update="messages2 instructorDoc" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+				         		<p:growl id="messages2" showDetail="true"/>  
+					     		<h:outputLabel value="#{guideController.instructorDoc.name}"/>
+					            <h:commandLink action="#{guideController.removeInstructorDoc()}" immediate="true" alt="#{msgs.delete}" rendered="#{guideController.instructorDoc.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+				     	</h:panelGrid>	    	
+			    	</h:panelGroup>
+				    <h:panelGroup layout="block" class="col-12" id="activityId">
+				        <h:outputLabel for="instructorActivities" value="#{msgs.instructorActivities}" rendered="#{guideController.guide.instructor == true}"/>
+						<p:selectCheckboxMenu  value="#{guideController.instructorActivities}"  required="true" requiredMessage="#{msgs.instructorActivities} - #{msgs.isReq}" 
+								multiple="true" id="instructorActivities"  converter="cachedConverter" rendered="#{guideController.guide.instructor == true}">
+							<f:selectItems value="#{guideController.instructorActivitiesList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>
+				    	</p:selectCheckboxMenu>
+						<h:message for="instructorActivities" display="icon" style="color:red;" rendered="#{guideController.guide.instructor == true}" />	
+				    </h:panelGroup>
+	            </p:panel>
+	        </p:tab>
+	        <p:tab id="dutyCamp" title="#{msgs.dutyCamp}">
+	            <p:panel header="#{msgs.addDutyCamp}">
+	                <p:messages />
+	                    <h:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText  value="#{msgs.dutyCamp} : " />
+					        <p:selectBooleanCheckbox value="#{guideController.guide.dutyCamp}">
+					            <p:ajax update="aboveSeaId aboveSeaReadyId" />
+					        </p:selectBooleanCheckbox>		    	
+				    	</h:panelGrid>
+				    	<br/> 
+				    	<h:panelGroup layout="block" class="col-12" id="aboveSeaId">
+					        <h:outputLabel value="#{msgs.aboveSea} *" rendered="#{guideController.guide.dutyCamp == true}"/>
+							<h:inputText id="aboveSea" value="#{guideController.guide.aboveSea}" required="true" rendered="#{guideController.guide.dutyCamp == true}"
+								requiredMessage="#{msgs.aboveSea} - #{msgs.isReq}" >
+							</h:inputText>
+							<h:message for="aboveSea" display="icon" style="color:red;" rendered="#{guideController.guide.dutyCamp == true}"/>
+					    </h:panelGroup>
+					    <h:panelGroup layout="block" class="col-12" id="aboveSeaReadyId">
+					        <h:outputLabel value="#{msgs.aboveSeaReady} *" rendered="#{guideController.guide.dutyCamp == true}"/>
+							<h:inputText id="aboveSeaReady" value="#{guideController.guide.aboveSeaReady}" required="true" rendered="#{guideController.guide.dutyCamp == true}"
+								requiredMessage="#{msgs.aboveSeaReady} - #{msgs.isReq}">
+							</h:inputText>
+							<h:message for="aboveSeaReady" display="icon" style="color:red;" rendered="#{guideController.guide.dutyCamp == true}"/>
+					    </h:panelGroup>
+	                
+	            </p:panel>
+	        </p:tab>
+	        <p:tab id="mountainGuide" title="#{msgs.mountainGuide}">
+	            <p:panel header="#{msgs.addMountainGuide}">
+	                <p:messages />
+	                <h:panelGrid columns="2" columnClasses="label, value">
+						<h:outputText  value="#{msgs.mountainGuide} : " />
+				        <p:selectBooleanCheckbox value="#{guideController.guide.mountainGuide}">
+				            <p:ajax update="mountainDocId" />
+				        </p:selectBooleanCheckbox>		    	
+			    	</h:panelGrid>
+			    	<br/> 
+			    	<h:panelGroup layout="block" class="col-12" id="mountainDocId">
+						<h:outputText  value="#{msgs.mountainDoc} : " rendered="#{guideController.guide.mountainGuide == true}"/>	
+						<h:panelGrid columns="1" id="mountainDoc" rendered="#{guideController.guide.mountainGuide == true}">
+								<p:fileUpload mode="advanced" fileUploadListener="#{guideController.uploadMountainDoc}"
+				                       update="messages3 mountainDoc" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+				         		<p:growl id="messages3" showDetail="true"/>  
+					     		<h:outputLabel value="#{guideController.mountainDoc.name}"/>
+					            <h:commandLink action="#{guideController.removeMountainDoc()}" immediate="true" alt="#{msgs.delete}" rendered="#{guideController.mountainDoc.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+				     	</h:panelGrid>    	
+			    	</h:panelGroup>
+	            </p:panel>
+	        </p:tab>
+	        <p:tab id="assistant" title="#{msgs.assistant}">
+	            <p:panel header="#{msgs.addAssistant}">
+	                <p:messages />
+	                <h:panelGrid columns="2" columnClasses="label, value">
+	                    <h:outputText  value="#{msgs.assistant} : " />
+					    <p:selectBooleanCheckbox value="#{guideController.guide.assistant}" />
+	                </h:panelGrid>
+	            </p:panel>
+	        </p:tab>
+	        <p:tab id="cityGuide" title="#{msgs.cityGuide}">
+	            <p:panel header="#{msgs.addCityGuide}">
+	                <p:messages />
+	                    <h:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText  value="#{msgs.cityGuide} : " />
+					        <p:selectBooleanCheckbox value="#{guideController.guide.cityGuide}">
+					            <p:ajax update="cityDocId" />
+					        </p:selectBooleanCheckbox>		    	
+				    	</h:panelGrid>
+				    	<br />
+				    	<h:panelGroup layout="block" class="col-12" id="cityDocId">
+							<h:outputText  value="#{msgs.cityDoc} : " rendered="#{guideController.guide.cityGuide == true}"/>	
+							<h:panelGrid columns="1" id="cityDoc" rendered="#{guideController.guide.cityGuide == true}">
+								<p:fileUpload mode="advanced" fileUploadListener="#{guideController.uploadCityDoc}"
+				                       update="messages4 cityDoc" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+				         		<p:growl id="messages4" showDetail="true"/>  
+					     		<h:outputLabel value="#{guideController.cityDoc.name}"/>
+					            <h:commandLink action="#{guideController.removeCityDoc()}" immediate="true" alt="#{msgs.delete}" rendered="#{guideController.cityDoc.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+				     	    </h:panelGrid>      	
+				    	</h:panelGroup>
+	            </p:panel>
+	        </p:tab>
+
+ 
+	        <p:tab id="appDocument" title="#{msgs.appDocument}">
+	            <p:panel header="#{msgs.addGuideDocument}">
+	                <p:messages />
+	                <h:panelGrid columns="2" columnClasses="label, value">
+				    	
+				    	<h:panelGroup layout="block" class="col-12" >
+							<h:outputText  value="#{msgs.guideDocument} *" />	
+							<h:panelGrid columns="1" id="documentId">
+								<p:fileUpload mode="advanced" fileUploadListener="#{guideController.uploadDocument}"
+				                       update="messages5 documentId" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+				         		<p:growl id="messages5" showDetail="true"/>  
+					     		<h:outputLabel value="#{guideController.document.name}"/>
+					            <h:commandLink action="#{guideController.removeDocument()}" immediate="true" alt="#{msgs.delete}" rendered="#{guideController.document.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+				     	    </h:panelGrid>     	
+				    	</h:panelGroup>
+				    	<div class="col-12">
+							<h:outputText  value="#{msgs.guideRequirement} : " />
+					        <p:selectBooleanCheckbox value="#{guideController.guide.requerement}" />
+				    	</div>
+	                </h:panelGrid>
+	            </p:panel>
+	        </p:tab>
+	 
+	        <p:tab id="confirm" title="#{msgs.confirmation}">
+	            <p:panel header="#{msgs.checkConfirmation}">
+	                <h:panelGrid id="confirmation" columns="1" columnClasses="grid,grid,grid">
+	                    <h:panelGrid columns="2">
+			                <h:outputText value="#{msgs.translator} : " />
+			                <h:outputText value="#{msgs.yes}" rendered="#{guideController.guide.translator == true}"/>
+			                <h:outputText value="#{msgs.no}" rendered="#{guideController.guide.translator == false}"/>
+			                <h:outputText  value="#{msgs.translatorDoc} : " rendered="#{guideController.guide.translator == true}"/> 
+			                <h:outputLabel value="#{guideController.translatorDoc.name}" rendered="#{guideController.guide.translator == true}"/>
+	                    </h:panelGrid>
+	                    <h:panelGrid columns="2">
+	                        <h:outputText  value="#{msgs.instructor} : " />
+	                        <h:outputText value="#{msgs.yes}" rendered="#{guideController.guide.instructor == true}"/>
+			                <h:outputText value="#{msgs.no}" rendered="#{guideController.guide.instructor == false}"/>
+			                <h:outputText  value="#{msgs.instructorDoc} : " rendered="#{guideController.guide.instructor == true}"/> 
+			                <h:outputLabel value="#{guideController.instructorDoc.name}" rendered="#{guideController.guide.instructor == true}"/>
+			                <h:outputLabel for="instructorActivities" value="#{msgs.instructorActivities}" rendered="#{guideController.guide.instructor == true}"/>
+							<p:selectCheckboxMenu  value="#{guideController.instructorActivities}"  required="true" requiredMessage="#{msgs.instructorActivities} - #{msgs.isReq}" 
+									multiple="true"  disabled="true"  converter="cachedConverter" rendered="#{guideController.guide.instructor == true}">
+								<f:selectItems value="#{guideController.instructorActivitiesList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>
+					    	</p:selectCheckboxMenu>
+	                    </h:panelGrid>
+	                    <h:panelGrid columns="2">
+	                       <h:outputText  value="#{msgs.dutyCamp} : " />
+	                       <h:outputText value="#{msgs.yes}" rendered="#{guideController.guide.dutyCamp == true}"/>
+			               <h:outputText value="#{msgs.no}" rendered="#{guideController.guide.dutyCamp == false}"/>
+			               <h:outputLabel value="#{msgs.aboveSea}" rendered="#{guideController.guide.dutyCamp == true}"/>
+			               <h:outputLabel value="#{guideController.guide.aboveSea}" rendered="#{guideController.guide.dutyCamp == true}"/>
+			               <h:outputLabel value="#{msgs.aboveSeaReady}" rendered="#{guideController.guide.dutyCamp == true}"/>
+			               <h:outputLabel value="#{guideController.guide.aboveSeaReady}" rendered="#{guideController.guide.dutyCamp == true}"/>
+	                    </h:panelGrid>
+	                    <h:panelGrid columns="2">
+	                       <h:outputText  value="#{msgs.mountainGuide} : " />
+	                       <h:outputText value="#{msgs.yes}" rendered="#{guideController.guide.mountainGuide == true}"/>
+			               <h:outputText value="#{msgs.no}" rendered="#{guideController.guide.mountainGuide == false}"/>
+			               <h:outputText  value="#{msgs.mountainDoc} : " rendered="#{guideController.guide.mountainGuide == true}"/> 
+			               <h:outputLabel value="#{guideController.mountainDoc.name}" rendered="#{guideController.guide.mountainGuide == true}"/>
+	                    </h:panelGrid>
+	                    <h:panelGrid columns="2">
+	                      <h:outputText  value="#{msgs.assistant} : " />
+	                      <h:outputText value="#{msgs.yes}" rendered="#{guideController.guide.assistant == true}"/>
+			              <h:outputText value="#{msgs.no}" rendered="#{guideController.guide.assistant == false}"/>
+	                    </h:panelGrid>
+	                    <h:panelGrid columns="2">
+	                       <h:outputText  value="#{msgs.cityGuide} : " />
+	                       <h:outputText value="#{msgs.yes}" rendered="#{guideController.guide.cityGuide == true}"/>
+			               <h:outputText value="#{msgs.no}" rendered="#{guideController.guide.cityGuide == false}"/>
+			               <h:outputText  value="#{msgs.cityDoc} : " rendered="#{guideController.guide.cityGuide == true}"/> 
+			               <h:outputLabel value="#{guideController.cityDoc.name}" rendered="#{guideController.guide.cityGuide == true}"/>
+	                    </h:panelGrid>
+	                    <h:panelGrid columns="2">
+	                      <h:outputText  value="#{msgs.guideDocument}" />	
+	                      <h:outputLabel value="#{guideController.document.name}" />
+	                    </h:panelGrid>
+	                </h:panelGrid>
+	 
+	               <p:commandButton value="#{msgs.save}" action="#{guideController.save()}"  process="@this"/>
+			       <p:commandButton class="button" value="#{msgs.cancel}"
+								action="#{guideController.back()}" immediate="true" styleClass="ui-button-warning"/>
+	            </p:panel>
+	        </p:tab>
+    </p:wizard>     
+	</h:form>
+	</ui:define>
+</ui:composition>

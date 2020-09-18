@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+			<h:form>
+			<div class="pageTitle">
+				<h2>#{dictionaryController.dictionaryTypeController.dictionaryType.name}</h2>
+			</div>	
+			<div class="innerBlock">
+			    <div class="row">
+		    	  <div class="col-3">
+		    	        <h:outputLabel value="#{msgs.name}" />
+						<h:inputText id="name" value="#{dictionaryController.dictionary.name}" required="true"
+							requiredMessage="#{msgs.name} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="name" display="icon" style="color:red;" />
+		    	  </div>
+		    	  <div class="col-3">
+		    	        <h:outputLabel value="#{msgs.nameEn}" />
+						<h:inputText id="nameEn" value="#{dictionaryController.dictionary.nameEn}" >
+						</h:inputText>
+						<h:message for="nameEn" display="icon" style="color:red;" />
+		    	  </div>
+		    	  <div class="col-3">
+		    	        <h:outputLabel value="#{msgs.active}" />
+						<p:selectBooleanCheckbox value="#{dictionaryController.dictionary.active}">
+				        </p:selectBooleanCheckbox>
+		    	  </div>
+		    	  <div class="col submit">
+					<p:commandButton ajax="false" value="#{msgs.save}" action="#{dictionaryController.save()}"/>		    	
+			      </div>
+			      <div class="col submit">
+						<p:commandButton ajax="false" styleClass="orange-btn" value="#{msgs.cancel}" action="#{dictionaryController.cancel()}" immediate="true"/>		    		
+			      </div>	
+			
+			   </div>  
+			</div>
+	    </h:form>
+	</ui:define>
+</ui:composition>

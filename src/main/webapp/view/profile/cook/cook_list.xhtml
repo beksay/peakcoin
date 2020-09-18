@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/left_profile.xhtml" />		
+	</ui:define>
+	<ui:define name="content">
+		
+		<h:form>
+			<div class="row probile-container">
+				<div class="col-12 profile-info">
+					<div class="row">
+					    <div class="col-12">
+		    		        <h:outputLabel value="#{msgs.foods}" />
+							<p:selectCheckboxMenu  value="#{cookController.foods}"  required="true" requiredMessage="#{msgs.foods} - #{msgs.isReq}" disabled="#{cookController.editProfile ==false}"
+									multiple="true" id="foods"  converter="cachedConverter">
+								<f:selectItems value="#{cookController.foodsList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>
+					    	</p:selectCheckboxMenu>
+							<h:message for="foods" display="icon" style="color:red;" />	
+						</div>
+						<div class="col-12 InputForm">
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{cookController.change()}" value="#{msgs.editProfile}" rendered="#{cookController.editProfile ==false}"/>	
+							<p:commandButton ajax="false" styleClass="ui-button-info" action="#{cookController.saveProfile()}" update="@form" rendered="#{cookController.editProfile}" value="#{msgs.save}" />					
+							<p:commandButton ajax="false" styleClass="ui-button-warning" action="#{cookController.cancel()}" immediate="true" rendered="#{cookController.editProfile}" value="#{msgs.cancel}" />
+						</div>
+					</div>
+				</div>			
+			</div>
+	    </h:form>
+	</ui:define>
+</ui:composition>

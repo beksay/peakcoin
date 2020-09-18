@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"> 
+
+     <ui:composition>
+	    <div class="mainSidecontent">
+			<h:form id="formLeftSide">
+		        <div class="main-menu">
+						 <h:commandLink value="#{msgs.mainProfile}" action="#{profileController.goProfile(loginUtil.currentUser)}" styleClass="#{view.viewId.contains('profile_list') ? 'active' : ''}" />
+						 <h:commandLink value="#{msgs.organizator}" action="#{companyController.goCompany(loginUtil.currentUser)}" styleClass="#{view.viewId.contains('company') ? 'active' : ''}" 
+						             rendered="#{profileController.isCompanyActivated(loginUtil.currentUser)}"/>
+						 <h:commandLink value="#{msgs.quide}" action="#{guideController.goGuide(loginUtil.currentUser)}" styleClass="#{view.viewId.contains('guide') ? 'active' : ''}" 
+						             rendered="#{profileController.isGuideActivated(loginUtil.currentUser)}"/>
+						 <h:commandLink value="#{msgs.carPark}" action="#{carparkController.goCarpark(loginUtil.currentUser)}" styleClass="#{view.viewId.contains('carpark') ? 'active' : ''}" 
+						             rendered="#{profileController.isCarparkActivated(loginUtil.currentUser)}"/>
+				</div>
+ 			</h:form>	
+		</div> 
+	</ui:composition>
+</html>

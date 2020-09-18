@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		
+		<h:form>
+		    <p:panel id="filterPanel">
+				<h:outputLabel value="#{msgs.transportNumber}" />
+				<p:inputText id="transportNumber" value="#{transportList.number}"
+					title="Введите #{msgs.transportNumber}" />
+				<p:tooltip id="nameTooltip" for="transportNumber" showEvent="focus"
+					hideEvent="blur" />
+						
+				<p:commandButton id="applyBtn" action="#{transportList.filterData()}" value="#{msgs.apply}" />
+				<p:commandButton id="clearBtn" action="#{transportList.clearData()}" value="#{msgs.clear}" />
+				<p:commandButton value="#{msgs.add}" style="float:right" action="#{transportController.add()}" styleClass="ui-button-info" />
+			</p:panel>
+			
+			<p:dataTable var="entity" value="#{transportList.model}" 
+			paginator="true" rows="10" rowIndexVar="index" lazy="true" 
+			emptyMessage="#{msgs.noRecordsFound}" 
+			style="margin-top:0px"
+			sorttransport="DESCENDING"
+			styleClass="btransportless"
+			selectionMode="single" selection="#{transportController.transport}"
+			rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom" pageLinks="10"
+   			currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+		        <p:ajax event="rowSelect" listener="#{transportController.onRowSelect}"/>
+		        <p:column headerText="#{msgs.number}" width="50">
+		        	<h:outputText value="#{index+1}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.transportNumber}">
+		          	<h:outputText value="#{entity.number}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.transportType}">
+		          	<h:outputText value="#{entity.type.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.haveDriver}">
+		        	<h:outputText value="#{msgs.yes}" rendered="#{entity.haveDriver==true}"/>
+		        	<h:outputText value="#{msgs.no}" rendered="#{entity.haveDriver==false}"/>
+		        </p:column>
+		        <p:column headerText="#{msgs.status}">
+		        	<h:outputText value="#{enums[entity.status]}" />
+		        </p:column>
+                <p:column headerText="#{msgs.dateCreated}">
+		        	<h:outputText value="#{entity.dateCreated}" >
+		        	    <f:convertDateTime pattern="yyyy-MM-dd" />
+		        	</h:outputText>
+		        </p:column>
+		        <p:column headerText="#{msgs.operation}">
+		            <p:commandButton action="#{transportController.edit(entity)}" update="@form" icon="fa fa-edit" class="btn-journal" title="Редактировать" />
+		        	<p:commandButton action="#{transportControlle.delete(entity)}" update="@form" icon="fa fa-trash" class="btn-journal" title="Удалить" />
+		        </p:column> 
+	        </p:dataTable>	
+	   </h:form>
+	</ui:define>
+</ui:composition>

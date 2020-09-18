@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		
+		<h:form>
+		
+			<p:panel id="filterPanel">
+			<h:outputLabel value="#{msgs.fullName}" />
+			<p:inputText id="name" value="#{userList.fullName}"
+				title="Введите #{msgs.fullName}" />
+			<p:tooltip id="nameTooltip" for="name" showEvent="focus"
+				hideEvent="blur" />
+					
+				<p:commandButton id="applyBtn" action="#{userList.filterData()}" value="#{msgs.apply}" />
+				<p:commandButton id="clearBtn" action="#{userList.clearData()}" value="#{msgs.clear}" />
+			</p:panel>
+			
+			<p:dataTable var="entity" value="#{userList.model}" 
+			paginator="true" rows="10" rowIndexVar="index" lazy="true" 
+			emptyMessage="#{msgs.noRecordsFound}" 
+			style="margin-top:0px"
+			sortOrder="DESCENDING"
+			styleClass="borderless"
+			rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom" pageLinks="10"
+   			currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+   			selectionMode="single" 
+            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+		        <f:facet name="header">#{msgs.userJournal}</f:facet> 
+		        <p:column headerText="#{msgs.fullName}">
+		          	<h:outputText value="#{entity.person.fullname}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.email}">
+		        	<h:outputText value="#{entity.email}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.nickname}">
+		        	<h:outputText value="#{entity.person.nickname}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.status}">
+		        	<h:outputText value="#{enums[entity.status]}" />
+		        </p:column>
+    
+		        <p:column headerText="#{msgs.operation}">
+		            <p:commandButton action="#{userAction.edit(entity)}" update="@form" icon="fa fa-edit" class="btn-journal" title="Редактировать" />
+		        	<p:commandButton action="#{userAction.delete(entity)}" update="@form" icon="fa fa-remove" class="btn-journal" title="Удалить" />
+		        </p:column>
+		        
+		        
+	        </p:dataTable>
+	</h:form>
+	</ui:define>
+</ui:composition>

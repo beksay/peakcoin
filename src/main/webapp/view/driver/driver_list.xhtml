@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		
+		<h:form>
+		    <p:panel id="filterPanel">
+				<h:outputLabel value="#{msgs.inn}" />
+				<p:inputText id="name" value="#{driverList.fio}"
+					title="Введите #{msgs.fio}" />
+				<p:tooltip id="nameTooltip" for="name" showEvent="focus"
+					hideEvent="blur" />
+						
+				<p:commandButton id="applyBtn" action="#{driverList.filterData()}" value="#{msgs.apply}" />
+				<p:commandButton id="clearBtn" action="#{driverList.clearData()}" value="#{msgs.clear}" />
+				<p:commandButton value="#{msgs.add}" style="float:right" action="#{driverController.add()}" styleClass="ui-button-info" />
+			</p:panel>
+			
+			<p:dataTable var="entity" value="#{driverList.model}" 
+			paginator="true" rows="10" rowIndexVar="index" lazy="true" 
+			emptyMessage="#{msgs.noRecordsFound}" 
+			style="margin-top:0px"
+			sortdriver="DESCENDING"
+			styleClass="bdriverless"
+			selectionMode="single" selection="#{driverController.driver}"
+			rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom" pageLinks="10"
+   			currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+		        <p:ajax event="rowSelect" listener="#{driverController.onRowSelect}"/>
+		        <p:column headerText="#{msgs.number}" width="50">
+		        	<h:outputText value="#{index+1}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.inn}">
+		          	<h:outputText value="#{entity.pin}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.fio}">
+		          	<h:outputText value="#{entity.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.phone}">
+		        	<h:outputText value="#{entity.phone}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.birthDate}">
+		        	<h:outputText value="#{entity.birthDate}" >
+		        	    <f:convertDateTime pattern="yyyy-MM-dd" />
+		        	</h:outputText>
+		        </p:column>
+		        <p:column headerText="#{msgs.status}">
+		        	<h:outputText value="#{enums[entity.status]}" />
+		        </p:column>
+                <p:column headerText="#{msgs.dateCreated}">
+		        	<h:outputText value="#{entity.dateCreated}" >
+		        	    <f:convertDateTime pattern="yyyy-MM-dd" />
+		        	</h:outputText>
+		        </p:column>
+		        <p:column headerText="#{msgs.operation}">
+		            <p:commandButton action="#{driverController.edit(entity)}" update="@form" icon="fa fa-edit" class="btn-journal" title="Редактировать" />
+		        	<p:commandButton action="#{driverControlle.delete(entity)}" update="@form" icon="fa fa-trash" class="btn-journal" title="Удалить" />
+		        </p:column> 
+	        </p:dataTable>	
+	   </h:form>
+	</ui:define>
+</ui:composition>

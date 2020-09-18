@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="base.xhtml">
+	<ui:define name="outer-wrap-header">
+		<ui:include src="../private/navbar-menu.xhtml" />
+	</ui:define>
+	<ui:define name="outer-wrap-nav">
+		<ui:include src="../private/sidebar-menu.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="outer-wrap-content">
+		<ui:include src="../private/breadcrumb.xhtml" />
+		<div id="wrap-private-content">
+			<div id="private-content">
+			    <div class="main-left-menu">
+					<ui:insert name="main-content-left" />
+				</div>
+				<div id="content" class="private">
+					<ui:insert name="content" />
+				</div>
+			</div>
+		</div>
+		<ui:include src="../private/footer.xhtml" />
+	</ui:define>
+</ui:composition>
+
+</html>

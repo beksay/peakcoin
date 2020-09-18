@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	
+	    <h:form id="form">	
+		    <p:messages id="messages" showDetail="true" closable="true">
+		        <p:autoUpdate />
+		    </p:messages> 
+		    <p:wizard nextLabel="#{msgs.next}" backLabel="#{msgs.back}">
+		         <p:tab id="company" title="#{msgs.companyInfo}">
+		            <p:panel header="#{msgs.addCompanyInfo}">
+		                <h:panelGrid columns="3" columnClasses="label, value">
+		                    <h:outputLabel value="#{msgs.pin} *" />
+							<h:inputText id="pin" value="#{companyController.company.pin}" required="true"
+								requiredMessage="#{msgs.pin} - #{msgs.isReq}">
+							</h:inputText>
+							<h:message for="pin" display="icon" style="color:red;" />
+							
+							<h:outputLabel value="#{msgs.companyName} *" />
+							<h:inputText id="companyName" value="#{companyController.company.companyName}" required="true"
+								requiredMessage="#{msgs.companyName} - #{msgs.isReq}">
+							</h:inputText>
+							<h:message for="companyName" display="icon" style="color:red;" />
+							
+							<h:outputLabel for="formType" value="#{msgs.formType} *" />	 
+						    <p:selectOneMenu ajax="false" id="formType" value="#{companyController.company.formType}" converter="enumConverter"
+						        required="true" requiredMessage="#{msgs.formType} - #{msgs.isReq}">
+						        <f:selectItem itemLabel="#{msgs.selectValue}"  />
+				                <f:selectItems value="#{companyController.formTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+				            </p:selectOneMenu>
+				            <h:message for="formType" display="icon" style="color:red;" />
+				            
+				            <h:outputLabel value="#{msgs.phone} *" />
+							<h:inputText id="phone" value="#{companyController.company.phone}" required="true"
+								requiredMessage="#{msgs.phone} - #{msgs.isReq}">
+							</h:inputText>
+							<h:message for="phone" display="icon" style="color:red;" />
+							
+							<h:outputLabel value="#{msgs.email} *" />
+							<h:inputText id="email" value="#{companyController.company.email}" required="true"
+								requiredMessage="#{msgs.email} - #{msgs.isReq}">
+							</h:inputText>
+							<h:message for="email" display="icon" style="color:red;" />
+							
+							<h:outputLabel value="#{msgs.manager} *" />
+							<h:inputText id="manager" value="#{companyController.company.manager}" required="true"
+								requiredMessage="#{msgs.manager} - #{msgs.isReq}">
+							</h:inputText>
+							<h:message for="manager" display="icon" style="color:red;" />
+		                </h:panelGrid>
+		            </p:panel>
+		        </p:tab>
+		 
+		        <p:tab id="documents" title="#{msgs.documents}">
+		            <p:panel header="#{msgs.addDocuments}"> 
+		                <p:messages />
+		                <h:panelGrid columns="3" columnClasses="label, value">
+		                    <h:outputLabel value="#{msgs.document} *"/>
+					        <h:panelGrid columns="2" id="document">
+					    		
+									<p:fileUpload mode="advanced" fileUploadListener="#{companyController.handleFileUploadDocument}"
+					                       update="messages1 document" sizeLimit="10000000" fileLimit="1" auto="true"
+					                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+					                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+					         		<p:growl id="messages1" showDetail="true"/>  
+						     		<h:outputLabel value="#{companyController.document.name}"/>
+						            <h:commandLink action="#{companyController.removeDocument()}" immediate="true" alt="#{msgs.delete}" rendered="#{companyController.document.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					     	</h:panelGrid>
+					     	<h:outputLabel  />
+					     	
+					     	<h:outputLabel value="#{msgs.passport} *"/>
+					        <h:panelGrid columns="20" id="passport">
+					    		
+									<p:fileUpload mode="advanced" fileUploadListener="#{companyController.handleFileUploadPassport}"
+					                       update="messages2 passport" sizeLimit="10000000" fileLimit="1" auto="true"
+					                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+					                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+					         		<p:growl id="messages2" showDetail="true"/>  
+						     		<h:outputLabel value="#{companyController.passport.name}"/>
+						            <h:commandLink action="#{companyController.removePassport()}" immediate="true" alt="#{msgs.delete}" rendered="#{companyController.passport.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					     	</h:panelGrid>
+					     	<h:outputLabel  />
+							
+							<h:outputLabel value="#{msgs.logo}"/>
+					        <h:panelGrid columns="2" id="image">
+					    		
+									<p:fileUpload mode="advanced" fileUploadListener="#{companyController.handleFileUploadImage}"
+					                       update="messages3 image" sizeLimit="10000000" fileLimit="1" auto="true"
+					                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+					                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+					         		<p:growl id="messages3" showDetail="true"/>  
+						     		<h:outputLabel value="#{companyController.image.name}"/>
+						            <h:commandLink action="#{companyController.removeImage()}" immediate="true" alt="#{msgs.delete}" rendered="#{companyController.image.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					     	</h:panelGrid> 
+					     	<h:outputLabel  />	
+					     	
+					     	<h:outputText  value="#{msgs.guideRequirement} : " />
+					        <p:selectBooleanCheckbox value="#{companyController.company.requerement}" required="true"/>
+					        <h:outputLabel  />	
+					   </h:panelGrid>
+		            </p:panel>
+		        </p:tab>
+		 
+		        <p:tab id="confirm" title="#{msgs.comfirmation}">
+		            <p:panel header="#{msgs.checkConfirmation}">
+		                <h:panelGrid id="confirmation" columns="2" columnClasses="grid,grid,grid">
+		                
+		                        <h:outputText value="#{msgs.pin} : " />
+		                        <h:outputText value="#{companyController.company.pin}" styleClass="outputLabel"/>
+		                        <h:outputText value="#{msgs.companyName} : " />
+		                        <h:outputText value="#{companyController.company.companyName}" styleClass="outputLabel"/>
+		                        <h:outputText value="#{msgs.formType} : " />
+		                        <h:outputText value="#{enums[companyController.company.formType]}" styleClass="outputLabel"/>
+		                        <h:outputText value="#{msgs.phone} : " />
+		                        <h:outputText value="#{companyController.company.phone}" styleClass="outputLabel"/>
+		                        <h:outputText value="#{msgs.email} : " />
+		                        <h:outputText value="#{companyController.company.email}" styleClass="outputLabel"/>
+		                        <h:outputText value="#{msgs.manager} : " />
+		                        <h:outputText value="#{companyController.company.manager}" styleClass="outputLabel"/>
+		                        <h:outputText value="#{msgs.document} : " />
+		                        <h:outputLabel value="#{companyController.document.name}"/>
+		                        <h:outputText value="#{msgs.passport} : " />
+		                        <h:outputLabel value="#{companyController.passport.name}"/>
+		                        <h:outputText value="#{msgs.logo} : " />
+		                        <h:outputLabel value="#{companyController.image.name}"/>
+		        
+		                </h:panelGrid>
+		                <br />
+		                <p:commandButton class="button" value="#{msgs.save}"
+							     action="#{companyController.save()}" styleClass="ui-button-info"/>
+				        <p:commandButton class="button" value="#{msgs.cancel}"
+									action="#{companyController.back()}" immediate="true" styleClass="ui-button-warning"/>
+		            </p:panel>
+		        </p:tab>
+	    </p:wizard>  
+	     
+	</h:form>
+	</ui:define>
+</ui:composition>

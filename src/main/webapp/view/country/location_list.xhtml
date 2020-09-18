@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	 
+	 <h:form>	
+		    <div class="pageTitle">
+				<h2>#{locationController.conversationOblast.oblast.name}</h2>
+			</div>
+			
+    		<p:commandButton action="#{locationController.add()}" value="#{msgs.add}"></p:commandButton>
+			
+			<p:dataTable var="entity" value="#{locationList.model}" 
+				paginator="true" rows="50" rowIndexVar="index" lazy="true" 
+				emptyMessage="#{msgs.noRecordsFound}" 
+				style="margin-top:0px"
+				sortOrder="DESCENDING"
+				styleClass="borderless"
+				selectionMode="single" 
+				rowsPerPageTemplate="50,70,100,150,200" paginatorPosition="bottom" pageLinks="10"
+	   			currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+	            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+	            <f:facet name="header">
+		           #{msgs.location}
+		        </f:facet>
+		        <p:column headerText="#{msgs.id}" width="200">
+		        	<h:outputText value="#{index + 1}"/>
+		        </p:column>
+		        <p:column headerText="#{msgs.category}">
+		          	<h:outputText value="#{entity.category.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.name}">
+		          	<h:outputText value="#{entity.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.locationInfo}">
+		          	<h:outputText value="#{entity.info}" escape="false" />
+		        </p:column>
+		        <p:column headerText="#{msgs.pictures}">
+					<p:dataList value="#{entity.attachments}" var="file" id="files"
+						type="ordered" emptyMessage="#{msgs.noRecordsFound}">
+						<a
+							href="#{utilController.getDownloadURL(utilController.generateKeyAliveCurrentSession(file))}">
+							<h:outputText value="#{file.fileName}" />
+						</a>
+					</p:dataList>
+				</p:column>
+		        <p:column headerText="#{msgs.operation}">
+		            <p:commandButton action="#{locationController.edit(entity)}" update="@form" icon="fa fa-edit" class="btn-journal" title="#{msgs.edit}" />
+		            <p:commandButton action="#{locationController.delete(entity)}" update="@form" icon="fa fa-trash" class="btn-journal" title="#{msgs.delete}" />
+		        </p:column>	        
+	        </p:dataTable>
+	     
+	  </h:form>
+	</ui:define>
+</ui:composition>

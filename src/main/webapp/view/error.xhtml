@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/WEB-INF/templates/default.xhtml">
+	
+	<form>
+	
+	<ui:define name="wrap-container">
+		
+		<div class="full-height p-padding">
+		
+		
+				
+			<div class="success-text">
+				
+				<p class="title"> Произошло ошибка
+				</p>
+				
+				<h1>
+				<p:link outcome="/view/main.xhtml" value="Назад" >
+				<f:param name="productId" value="10" />
+                </p:link>
+				</h1>
+				
+                
+				
+								<div class="clear"></div>
+			</div>
+			
+		</div>
+		
+	</ui:define>	
+	</form>
+</ui:composition>

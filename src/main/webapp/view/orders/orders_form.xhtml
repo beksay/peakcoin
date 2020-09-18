@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	
+	    <h:form id="form">
+	    
+		    <p:wizard nextLabel="#{msgs.next}" backLabel="#{msgs.back}">
+		         <p:tab id="general" title="#{msgs.generalInfo}">
+		            <p:panel header="#{msgs.addGeneralInfo}">
+		            
+		               <h:panelGrid columns="3">
+						    <h:outputLabel for="orderType" value="#{msgs.orderType}" />
+							<h:selectOneMenu id="orderType" value="#{orderController.orders.type}" effect="fold" editable="true" converter="orderTypeConverter"
+						    	required="true" requiredMessage="#{msgs.orderType} - #{msgs.isReq}"  >
+					            <f:selectItem itemLabel="#{msgs.selectValue}"/>
+								<f:selectItems value="#{orderController.orderTypeList}" var="item" itemLabel="#{item.name}" itemValue="#{item}"/>
+						    </h:selectOneMenu>
+					        <h:message for="orderType" display="icon" style="color:red;" />
+	
+							<h:outputLabel value="#{msgs.orderName}" />
+							<h:inputText id="orderName"
+								value="#{orderController.orders.name}" required="true"
+								requiredMessage="#{msgs.orderName} - #{msgs.isReq}">
+							</h:inputText>
+							<h:message for="orderName" display="icon" style="color:red;" />
+	
+							<h:outputLabel value="#{msgs.orderDescription}" />
+							<p:inputTextarea id="orderDescription" value="#{orderController.orders.description}" 
+								required="true" rows="7" cols="40"
+								requiredMessage="#{msgs.orderDescription} - #{msgs.isReq}" >
+							</p:inputTextarea>
+							<h:message for="orderDescription" display="icon" style="color:red;" />
+							
+							<h:outputLabel value="#{msgs.peakcoin}" />
+							<h:inputText id="peakcoin"
+								value="#{orderController.orders.peakcoin}" required="true"
+								requiredMessage="#{msgs.peakcoin} - #{msgs.isReq}">
+							</h:inputText>
+							<h:message for="peakcoin" display="icon" style="color:red;" />
+							
+							<h:outputLabel value="#{msgs.date}" for="date"/>
+			                <p:calendar value="#{orderController.orders.date}" id="date"
+		                            required="true" showOn="button"
+		                            requiredMessage="#{msgs.date} - #{msgs.isReq}"
+		                            pattern="dd-MM-yyyy" /> 
+			                <h:message for="date" display="icon" style="color:red;" />
+							
+							<h:outputLabel value="#{msgs.orderQuantity}" />
+							<h:inputText id="orderQuantity"
+								value="#{orderController.orders.quantity}" required="true"
+								requiredMessage="#{msgs.orderQuantity} - #{msgs.isReq}">
+							</h:inputText>
+							<h:message for="orderQuantity" display="icon" style="color:red;" />
+		                
+		                </h:panelGrid>
+		            </p:panel>
+		        </p:tab>
+		        
+		        <p:tab id="locations" title="#{msgs.locations}">
+		            <p:panel header="#{msgs.addLocation}">
+		                 <h:panelGrid columns="30" id="locationId">
+		                 
+					                 <h:outputLabel for="country" value="#{msgs.country}" />
+									 <h:selectOneMenu id="country" value="#{orderController.country}" effect="fold" editable="true" converter="countryConverter">
+							            <f:selectItem itemLabel="#{msgs.selectValue}"/>
+										<f:selectItems value="#{orderController.findCountry()}" var="c" itemLabel="#{c.name}" itemValue="#{c}"/>
+							    			    <p:ajax  event="change" update="oblast"/>
+									 </h:selectOneMenu>
+									 
+									 <h:outputLabel for="oblast" value="#{msgs.oblast}" />
+									 <h:selectOneMenu id="oblast" value="#{orderController.oblast}" effect="fold" editable="true" converter="oblastConverter">
+							            <f:selectItem itemLabel="#{msgs.selectValue}"/>
+										<f:selectItems value="#{orderController.findOblast()}" var="c" itemLabel="#{c.name}" itemValue="#{c}"/>
+							    			    <p:ajax  event="change" update="location"/>
+									 </h:selectOneMenu>
+									
+									<h:outputText value="#{msgs.location}" styleClass="form-table-label disp-blc"/>
+									<p:autoComplete id="location" size="27" dropdown="true" 
+								    	var="c" itemValue="#{c}" itemLabel="#{c.name}" 
+										value="#{orderController.location.location}" 
+										converter="locationConverter"  
+										completeMethod="#{orderController.findLocation}" >
+										<p:column>
+							                <h:outputText value="#{c.name}" />
+							            </p:column>
+							            <p:column>
+							                <h:outputText value="#{c.category.name}" />
+							            </p:column>
+									</p:autoComplete>
+									<p:message for="location" />
+
+								<p:commandButton ajax="false" styleClass="add-btn" value="#{msgs.add}" update="locationId locationTable" actionListener="#{orderController.addLocation()}" />		
+						</h:panelGrid>
+						<br />
+						<p:dataTable id="locationTable" var="entity" styleClass="borderless"
+				            value="#{orderController.locationList}" rowIndexVar="index">
+				
+						         <f:facet name="header">#{msgs.locations}</f:facet>
+				
+						         <p:column headerText="#{msgs.number}" width="100">
+						        	<h:outputText value="#{index+1}" />
+						         </p:column>
+				
+						         <p:column headerText="#{msgs.country}">
+							        <h:outputText value="#{entity.location.oblast.country.name}" />
+						         </p:column>
+						         
+						         <p:column headerText="#{msgs.oblast}">
+							        <h:outputText value="#{entity.location.oblast.name}" />
+						         </p:column>
+						         
+						         <p:column headerText="#{msgs.location}">
+							        <h:outputText value="#{entity.location.name}" />
+						         </p:column>
+			
+					        	<p:column width="300">
+						      	  <p:commandButton action="#{orderController.deleteLocation(index)}"
+						 	     	update="locationTable" value="#{msgs.delete}" icon="fa fa-trash"
+								     styleClass="ui-button-warning" /> 
+						        </p:column>
+					       </p:dataTable>
+		                
+		            </p:panel>
+		        </p:tab>
+	 
+		        <p:tab id="guides" title="#{msgs.guids}">
+		            <p:panel header="#{msgs.addGids}">
+		              
+		                
+		            </p:panel>
+		        </p:tab>
+		        
+		        <p:tab id="transports" title="#{msgs.trasnports}">
+		            <p:panel header="#{msgs.addTransports}">
+		              
+		                
+		            </p:panel>
+		        </p:tab>
+		        
+		        <p:tab id="programs" title="#{msgs.programs}">
+		            <p:panel header="#{msgs.addPrograms}"> 
+		                <h:panelGrid columns="3">
+		                    <h:outputLabel value="#{msgs.orderProgram}" />
+							<p:textEditor widgetVar="editor1" value="#{orderController.orders.program}" height="300" style="margin-bottom:10px"/>
+					        <h:outputLabel  />
+					        
+					        <h:outputLabel value="#{msgs.picture}"/>
+					        <h:panelGrid columns="2" id="image">
+					    		
+									<p:fileUpload mode="advanced" fileUploadListener="#{orderController.handleFileUploadImage}"
+					                       update="messages image" sizeLimit="10000000" fileLimit="1" auto="true"
+					                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+					                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+					         		<p:growl id="messages" showDetail="true"/>  
+						     		<h:outputLabel value="#{orderController.image.name}"/>
+						            <h:commandLink action="#{orderController.removeImage()}" immediate="true" alt="#{msgs.delete}" rendered="#{orderController.image.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					     	</h:panelGrid>
+					     	<h:outputLabel  />
+						</h:panelGrid>
+		            </p:panel>
+		        </p:tab>
+		 
+		        <p:tab id="confirm" title="#{msgs.confirmations}">
+		            <p:panel header="#{msgs.checkConfirmation}">
+		                <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+		                    <h:panelGrid columns="2" columnClasses="label, value">
+		                        <h:outputText value="#{msgs.orderType} : " />
+		                        <h:outputText value="#{orderController.orders.type.name}" styleClass="outputLabel"/>
+		                        <h:outputText value="#{msgs.orderName} : " />
+		                        <h:outputText value="#{orderController.orders.name}" styleClass="outputLabel"/> 
+		                    </h:panelGrid>
+		 
+		                </h:panelGrid>
+		 
+		               <p:commandButton value="#{msgs.save}" action="#{orderController.save()}"  process="@this"/>
+				       <p:commandButton class="button" value="#{msgs.cancel}"
+									action="#{orderController.cancel()}" immediate="true" styleClass="ui-button-warning"/>
+		            </p:panel>
+		        </p:tab>
+	    </p:wizard>  
+	</h:form>
+	</ui:define>
+</ui:composition>

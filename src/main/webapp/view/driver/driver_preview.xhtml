@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	
+	    <h:form id="form">
+		<div class="pageTitle">
+			<h2>#{msgs.driverPreview}</h2>
+		</div>
+		<div class="pageBlock">
+			<div class="pageBody">
+
+					<h:panelGrid columns="3">
+						<h:outputLabel value="#{msgs.pin}" />
+						<h:inputText id="pin" value="#{driverController.driver.pin}" required="true" disabled="true"
+							requiredMessage="#{msgs.pin} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="pin" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.fio}" />
+						<h:inputText id="fio" value="#{driverController.driver.name}" required="true" disabled="true"
+							requiredMessage="#{msgs.fio} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="fio" display="icon" style="color:red;" />
+				        
+				        <h:outputLabel value="#{msgs.birthDate}" />
+		                <p:calendar id="birthDate" value="#{driverController.driver.birthDate}" disabled="true"
+		                 yearRange="1950:2030" navigator="true" pattern="yyyy-MM-dd" 
+		                 required="true" requiredMessage="#{msgs.birthDate} - #{msgs.isReq}" />
+		                <h:message for="birthDate" display="icon" style="color:red;" />
+
+						<h:outputLabel value="#{msgs.phone}" />
+						<h:inputText id="phone" value="#{driverController.driver.phone}" required="true" disabled="true"
+							requiredMessage="#{msgs.phone} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="phone" display="icon" style="color:red;" />
+				        
+				        <h:outputLabel value="#{msgs.driverPassport}"/>
+				        <h:panelGrid columns="2" id="passport">
+					     		<h:outputLabel value="#{driverController.passport.name}"/>
+				     	</h:panelGrid>
+				     	<h:outputLabel  />
+				     	
+				     	<h:outputLabel value="#{msgs.driverLicense}"/>
+				        <h:panelGrid columns="2" id="driverLicense">
+					     		<h:outputLabel value="#{driverController.license.name}"/>
+				     	</h:panelGrid>
+				     	<h:outputLabel  />
+					</h:panelGrid>
+
+					<h:panelGroup class="btnRegBlock">
+						<p:commandButton class="button" value="#{msgs.back}"
+							action="#{driverController.cancel()}" immediate="true" styleClass="ui-button-warning"/>
+					</h:panelGroup>
+			
+			</div>
+		</div>
+
+	</h:form>
+	</ui:define>
+</ui:composition>

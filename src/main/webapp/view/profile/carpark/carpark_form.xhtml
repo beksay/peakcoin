@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	
+	    <h:form id="form">	
+		<div class="row probile-container">
+			 <div class="row">
+				    <div class="col-4">
+				        <h:outputLabel value="#{msgs.pin} *" />
+						<h:inputText id="pin" value="#{carparkController.carpark.pin}" required="true"
+							requiredMessage="#{msgs.pin} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="pin" display="icon" style="color:red;" />
+				    </div>
+				    <div class="col-4">
+				        <h:outputLabel for="formType" value="#{msgs.formType} *" />	 
+					    <p:selectOneMenu ajax="false" id="formType" value="#{carparkController.carpark.formType}" converter="enumConverter"
+					        required="true" requiredMessage="#{msgs.formType} - #{msgs.isReq}">
+					        <f:selectItem itemLabel="" itemValue="" />
+			                <f:selectItems value="#{carparkController.formTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+			            </p:selectOneMenu>
+			            <h:message for="formType" display="icon" style="color:red;" />
+				    </div>
+				    <div class="col-4">
+				        <h:outputLabel value="#{msgs.country}" />	
+					    <p:selectOneMenu id="country" value="#{carparkController.carpark.country}"  converter="cachedConverter" >
+					        <f:selectItem itemLabel="#{msgs.selectValue}"/>
+			                <f:selectItems value="#{carparkController.countryList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>     
+			            </p:selectOneMenu>	
+			            <h:outputLabel  />
+				    </div>
+				    <div class="col-4">
+				        <h:outputLabel for="documentType" value="#{msgs.documentType} *" />	 
+					    <p:selectOneMenu ajax="false" id="documentType" value="#{carparkController.carpark.documentType}" converter="enumConverter"
+					        required="true" requiredMessage="#{msgs.documentType} - #{msgs.isReq}">
+					        <f:selectItem itemLabel="" itemValue="" />
+			                <f:selectItems value="#{carparkController.documentTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+			            </p:selectOneMenu>
+			            <h:message for="documentType" display="icon" style="color:red;" />
+				    </div>
+				    <div class="col-4">
+				    </div>
+				    <div class="col-4">
+				        <h:outputLabel value="#{msgs.document} *"/>
+				        <h:panelGrid columns="2" id="document">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{carparkController.handleFileUploadDocument}"
+				                       update="messages1 document" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+				         		<p:growl id="messages1" showDetail="true"/>  
+					     		<h:outputLabel value="#{carparkController.document.name}"/>
+					            <h:commandLink action="#{carparkController.removeDocument()}" immediate="true" alt="#{msgs.delete}" rendered="#{carparkController.document.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+				     	</h:panelGrid>
+				     	<h:outputLabel  />
+				    </div>
+				    <div class="col-12">
+				        <p:commandButton class="button" value="#{msgs.save}"
+							action="#{carparkController.save()}" styleClass="ui-button-info"/>
+							<h:outputLabel style="width:100px;display:inline-block"/>				
+						<p:commandButton class="button" value="#{msgs.cancel}"
+							action="#{carparkController.back()}" immediate="true" styleClass="ui-button-warning"/>
+				    </div>
+			 </div>
+		</div>	
+		<p:messages id="messages" showDetail="true" closable="true">
+	        <p:autoUpdate />
+	    </p:messages>    
+	</h:form>
+	</ui:define>
+</ui:composition>

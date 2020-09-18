@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		
+		<h:form>
+		    <p:panel id="filterPanel">
+				<h:outputLabel value="#{msgs.orderName}" />
+				<p:inputText id="name" value="#{myOrderList.orderName}"
+					title="Введите #{msgs.orderName}" />
+				<p:tooltip id="nameTooltip" for="name" showEvent="focus"
+					hideEvent="blur" />
+						
+				<p:commandButton id="applyBtn" action="#{myOrderList.filterData()}" value="#{msgs.apply}" />
+				<p:commandButton id="clearBtn" action="#{myOrderList.clearData()}" value="#{msgs.clear}" />
+			</p:panel>
+			
+			<p:dataTable var="entity" value="#{myOrderList.model}" 
+			paginator="true" rows="10" rowIndexVar="index" lazy="true" 
+			emptyMessage="#{msgs.noRecordsFound}" 
+			style="margin-top:0px"
+			sortOrder="DESCENDING"
+			styleClass="borderless"
+			rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom" pageLinks="10"
+   			currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+   			selectionMode="single" 
+            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+                <p:column headerText="#{msgs.number}" width="50">
+		        	<h:outputText value="#{index+1}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.orderName}">
+		          	<h:outputText value="#{entity.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.orderDescription}">
+		        	<h:outputText value="#{entity.description}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.date}">
+		        	<h:outputText value="#{entity.date}" >
+		        	    <f:convertDateTime pattern="yyyy-MM-dd" />
+		        	</h:outputText>
+		        </p:column>
+		        <p:column headerText="#{msgs.status}">
+		        	<h:outputText value="#{enums[entity.status]}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.peakcoin}">
+		        	<h:outputText value="#{entity.peakcoin}" style="font-weight: bold;"/>
+		        </p:column>         
+		        
+	        </p:dataTable>
+			
+	   </h:form>
+	</ui:define>
+</ui:composition>

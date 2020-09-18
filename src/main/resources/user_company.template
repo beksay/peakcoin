@@ -1,0 +1,32 @@
+<div style="margin: 0px; background: #fff; min-height: 500px; font-family: Arial, Helvetica, sans-serif; font-size: 12px;" bgcolor="#ffffff">
+
+    <table style="width: 90%; min-width: 600px; min-height: 500px; background: #fff; border-collapse: collapse; border: 1px solid #e5e5e5; color: #444;" cellpadding="0">
+
+        <tr>
+            <td style="height: 5px; background: #fff url('http://i.imgur.com/UgI55xg.png') repeat-x;">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; font-size: 14px; vertical-align: text-top;">
+                 <h1 style="font-size: 15px;">Уважаемый {2}</h1>
+                 <br/>
+
+				 <b><p>Ваш логин : {0}</p></b>
+				 
+				 <b><p>Ваш пароль : {3}</p></b>
+                 
+                 <br/>
+                 <p>Если у вас есть вопросы, напишите нам по адресу : peak.saitkulov@gmail.com </p>
+                 <br/>
+                 <br/>       
+                 
+                 <p> С уважением, Команда  "PeakCoin"</p>
+                 
+                 
+            </td>
+        </tr>
+      
+
+    </table>
+
+</div>

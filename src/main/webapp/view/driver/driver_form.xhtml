@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	
+	    <h:form id="form">
+		<div class="pageTitle">
+			<h2>#{msgs.driverForm}</h2>
+		</div>
+		<div class="pageBlock">
+			<div class="pageBody">
+
+					<h:panelGrid columns="3">
+						<h:outputLabel value="#{msgs.inn}" />
+						<h:inputText id="pin" value="#{driverController.driver.pin}" required="true"
+							requiredMessage="#{msgs.inn} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="pin" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.fio}" />
+						<h:inputText id="fio" value="#{driverController.driver.name}" required="true"
+							requiredMessage="#{msgs.fio} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="fio" display="icon" style="color:red;" />
+						
+				        <h:outputLabel value="#{msgs.birthDate}" />
+		                <p:calendar id="birthDate" value="#{driverController.driver.birthDate}" 
+		                 yearRange="1950:2030" navigator="true" pattern="yyyy-MM-dd" 
+		                 required="true" requiredMessage="#{msgs.birthDate} - #{msgs.isReq}" />
+		                <h:message for="birthDate" display="icon" style="color:red;" />
+
+						<h:outputLabel value="#{msgs.phone}" />
+						<h:inputText id="phone" value="#{driverController.driver.phone}" required="true"
+							requiredMessage="#{msgs.phone} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="phone" display="icon" style="color:red;" />
+				        
+				        <h:outputLabel value="#{msgs.driverPassport}"/>
+				        <h:panelGrid columns="2" id="passport">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{driverController.handleFileUploadPassport}"
+				                       update="messages passport" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+				         		<p:growl id="messages" showDetail="true"/>  
+					     		<h:outputLabel value="#{driverController.passport.name}"/>
+					            <h:commandLink action="#{driverController.removePassport()}" immediate="true" alt="#{msgs.delete}" rendered="#{driverController.passport.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+				     	</h:panelGrid>
+				     	<h:outputLabel  />
+				     	
+				     	<h:outputLabel value="#{msgs.driverLicense}"/>
+				        <h:panelGrid columns="2" id="driverLicense">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{driverController.handleFileUploadLicense}"
+				                       update="messages1 driverLicense" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+				         		<p:growl id="messages1" showDetail="true"/>  
+					     		<h:outputLabel value="#{driverController.license.name}"/>
+					            <h:commandLink action="#{driverController.removeLicense()}" immediate="true" alt="#{msgs.delete}" rendered="#{driverController.license.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+				     	</h:panelGrid>
+				     	<h:outputLabel  />
+					</h:panelGrid>
+
+					<h:panelGroup class="btnRegBlock">
+					    <p:commandButton  class="button" value="#{msgs.save}" ajax="false"
+							action="#{driverController.save()}" styleClass="btnRegister"/>
+							<h:outputLabel style="width:100px;display:inline-block"/>				
+						<p:commandButton class="button" value="#{msgs.cancel}"
+							action="#{driverController.cancel()}" immediate="true" styleClass="ui-button-warning"/>
+					</h:panelGroup>
+			
+			</div>
+		</div>
+
+	</h:form>
+	</ui:define>
+</ui:composition>
